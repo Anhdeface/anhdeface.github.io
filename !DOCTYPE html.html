@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>93132010667</title>
+    <style>
+        body {
+            background-color: #f2f2f2;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .chat-container {
+            width: 400px;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px 5px 0 0;
+        }
+        
+        .header h2 {
+            margin: 0;
+        }
+        
+        .chat-box {
+            padding: 10px;
+            height: 300px;
+            overflow-y: auto;
+            border-bottom: 1px solid #f2f2f2;
+        }
+        
+        .chat-input {
+            padding: 10px;
+            display: flex;
+        }
+        
+        .chat-input input {
+            flex: 1;
+            padding: 5px;
+        }
+        
+        .chat-input button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            margin-left: 5px;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        function sendMessage() {
+            var message = document.getElementById("messageInput").value;
+            
+            var chatBox = document.getElementById("chatBox");
+            var newMessage = document.createElement("div");
+            newMessage.innerHTML = "<strong>You:</strong> " + message;
+            chatBox.appendChild(newMessage);
+            
+            document.getElementById("messageInput").value = "";
+            
+            // Gửi tin nhắn đến máy khác (giả sử làm việc với Ajax, không thể thực hiện trong môi trường trình duyệt)
+            // Gửi request đến máy khác với message là nội dung tin nhắn
+            // Lắng nghe response từ máy khác và hiển thị tin nhắn phản hồi lên chat box
+        }
+    </script>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="header">
+            <h2>Web Chat</h2>
+            <p>Created by h2r7hjk777</p>
+        </div>
+        <div id="chatBox" class="chat-box"></div>
+        <div class="chat-input">
+            <input type="text" id="messageInput" placeholder="Type a message...">
+            <button onclick="sendMessage()">enter</button>
+        </div>
+    </div>
+</body>
+</html>
