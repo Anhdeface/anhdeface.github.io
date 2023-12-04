@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AUDIO-h2r7hjk</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #282828;
+            font-family: 'Helvetica Neue', sans-serif;
+        }
+
+        .audio-player {
+            width: 300px;
+            height: 300px;
+            background-color: #1DB954;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 20px;
+            position: relative;
+        }
+
+        .audio-player img {
+            width: 70%;
+            height: auto;
+            border-radius: 20px;
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        audio {
+            width: calc(100% - 40px);
+            position: absolute;
+            bottom: -1px;
+        }
+
+        .song-title {
+            position: absolute;
+            bottom: 310px;
+            width: 100%;
+            text-align: center;
+            color: black;
+            font-size: 1.5em;
+        }
+    </style>
+</head>
+<body>
+
+<div class="audio-player">
+    <img src="anh.jpg" alt="ALONE - ALAN WALKER">
+    <div class="song-title">ALONE - ALAN WALKER</div>
+    <audio id="audio" controls>
+        <source src="song.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+</div>
+
+<script>
+// JavaScript code remains the same
+</script>
+
+</body>
+</html>
