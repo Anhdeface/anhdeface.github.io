@@ -1,3 +1,5 @@
+***
+
 # 𝘞𝘦𝘭𝘤𝘰𝘮𝘦 𝘵𝘰 𝘵𝘩𝘦 𝘸𝘦𝘣𝘴𝘪𝘵𝘦 ***ANHDEFACE***
 ***
 ## _Mục Lục_
@@ -6,9 +8,9 @@
  + [Tool](https://anhdeface.github.io/tools)
 ***
 ### ***Project***
-| Python | C++ |
-|--------------------------------------------|---------------------------------|
-| [here](https://anhdeface.github.io/python) | [here](https://anhdeface.github.io/c++) |
+**[_python_](https://anhdeface.github.io/python)**
+
+*[C++](https://anhdeface.github.io/c++)*
 
 ***
 # ***𝐴𝑏𝑜𝑢𝑡 𝑀𝑒***
