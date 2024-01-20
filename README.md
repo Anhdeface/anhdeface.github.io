@@ -8,9 +8,8 @@
  + [Tool](https://anhdeface.github.io/tools)
 ***
 ### ***Project***
-**[_python_](https://anhdeface.github.io/python)**
-
-*[C++](https://anhdeface.github.io/c++)*
++ **[_python_](https://anhdeface.github.io/python)**
++ *[C++](https://anhdeface.github.io/c++)*
 
 ***
 # ***𝐴𝑏𝑜𝑢𝑡 𝑀𝑒***
