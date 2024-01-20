@@ -7,8 +7,8 @@
 ***
 ### ***Project***
 | Python | C++ |
-|-----------|-----------|
-| [here](https://anhdeface.github.io/python) | [here](https://anhdeface.github.io/c++) | 
+|--------------------------------------------|---------------------------------|
+| [here](https://anhdeface.github.io/python) | [here](https://anhdeface.github.io/c++) |
 
 ***
 # ***𝐴𝑏𝑜𝑢𝑡 𝑀𝑒***
