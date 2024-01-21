@@ -1,0 +1,38 @@
+//ALL CODE DOWNLOAD VỀ Nghịch
+// BY QuocAnh
+#include<bits/stdc++.h>
+using namespace std;
+
+int main () {
+int n,s=0,i,so=0,kq=0,kq1;
+string k,k2;
+cin>>n;
+k = to_string(n);
+for(i=0;i<k.size();i++){
+        so = k[i] - '0';
+s = s*10+so;
+while(s%3==0)
+    {kq = s;
+    break;
+}
+so = 0;
+}
+k2 = to_string(kq);
+kq1 = k.size() - k2.size();
+cout<<kq1;
+}
+// suộc 2
+#include <iostream>
+#include <algorithm>
+#include <string>
+
+using namespace std;
+
+int main() {
+    string c = "hello";
+    transform(c.begin(), c.end(), c.begin(), ::toupper);
+    cout << c;
+    return 0;
+}
+//suộc 3
+//chưa có
