@@ -1,4 +1,4 @@
-//ALL CODE DOWNLOAD VỀ Nghịch
+//ALL CODE DOWNLOAD
 // BY QuocAnh
 #include<bits/stdc++.h>
 using namespace std;
@@ -21,7 +21,7 @@ k2 = to_string(kq);
 kq1 = k.size() - k2.size();
 cout<<kq1;
 }
-// suộc 2
+// source 2
 #include <iostream>
 #include <algorithm>
 #include <string>
@@ -34,5 +34,5 @@ int main() {
     cout << c;
     return 0;
 }
-//suộc 3
+//source 3
 //chưa có
