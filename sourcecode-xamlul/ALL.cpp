@@ -35,4 +35,17 @@ int main() {
     return 0;
 }
 //source 3
-//chưa có
+#include<bits/stdc++.h>
+using namespace std;
+int _fun (int n) {
+return n * n;
+}
+int main () {
+int a,b,sum;
+cin>>a>>b;
+for(int i=a;i<b;i++){
+    sum += _fun(i);
+}
+cout<<sum;
+}
+//source 4
