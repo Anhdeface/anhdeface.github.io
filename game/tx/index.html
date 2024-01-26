@@ -41,15 +41,7 @@
       justify-content: center;
       margin-bottom: 20px;
     }
-
-    .player-icon {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin-right: 10px;
-    }
-
+	  
     .player-name {
       font-size: 18px;
       color: #555;
@@ -165,7 +157,6 @@
   <div class="container">
     <h1>Mini Game Online</h1>
     <div class="player-info">
-      <img class="player-icon" src="https://anhdeface.github.io/game/tx/img/avt.png">
       <div>
         <div class="player-name"> Game : <span id="player-name">Tài Xỉu</span></div>
         <div class="balance">Số dư: <span id="balance"></span></div>
@@ -210,9 +201,8 @@
     // Load thông tin người chơi từ local storage hoặc mặc định
     function loadPlayerInfo() {
       playerInfo = JSON.parse(localStorage.getItem('playerInfo')) || {
-        name: 'Tài Xỉu',
+        name: 'QuocAnhdzQuocAnhdz',
         balance: 10,
-        icon: 'https://anhdeface.github.io/game/tx/img/avt.png'
       };
 
       playerNameElement.textContent = playerInfo.name;
@@ -239,7 +229,7 @@
 
     placeBetButton.addEventListener('click', function () {
       betAmount = parseInt(betAmountInput.value);
-      if (betAmount > 0 && selectedChoice !== '') {
+      if (betAmount > 0 && selectedChoice !== '' && playerInfo.balance >= betAmount) {
         placeBetButton.disabled = true;
         setTimeout(function () {
           const
@@ -252,9 +242,9 @@
           transactionIdElement.textContent = `Mã giao dịch: ${transactionId}`;
 
           if (isWin) {
-            winElement.textContent = `Bạn đã thắng! Số tiền nhận được: $${betAmount}`;
+            winElement.textContent = `Bạn đã thắng! Số tiền nhận được: $${betAmount*1,9}`;
             lossElement.textContent = '';
-            playerInfo.balance += betAmount;
+            playerInfo.balance += betAmount*1,9;
           } else {
             winElement.textContent = '';
             lossElement.textContent = `Bạn đã thua! Số tiền mất đi: $${betAmount}`;
@@ -270,6 +260,9 @@
           placeBetButton.disabled = false;
         }, 2000);
       }
+	else if (playerInfo.balance < betAmount) {
+    winElement.textContent = `Số Tiền Của bạn không đủ để thực hiện cược`;
+  }
     });
 
     // Sinh mã giao dịch ngẫu nhiên
