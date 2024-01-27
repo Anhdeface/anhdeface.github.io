@@ -279,14 +279,6 @@
     window.addEventListener('load', function () {
       loadPlayerInfo();
     });
-		const resetButton = document.createElement('button');
-resetButton.textContent = 'Reset Data';
-document.body.appendChild(resetButton);
-	  resetButton.addEventListener('click', function () {
-		  localStorage.removeItem('playerInfo');
-  // Tải lại thông tin người chơi
-  loadPlayerInfo();
-});
   </script>
 </body>
  </script>
