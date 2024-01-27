@@ -6,6 +6,8 @@
  + [Source Code Thuật Toán - Xàm lul, xem cho vui](https://anhdeface.github.io/sourcecode-xamlul/index.html)
  + [Source Code Website các thứ](https://anhdeface.github.io/codewebsite/index.html)
  + [Tool](https://anhdeface.github.io/tools/index.html)
+ + [Tài Xỉu](https://anhdeface.github.io/game/tx/)
+ + [Game](https://anhdeface.github.io/game/)
    
 ***
 ### ***Project***
