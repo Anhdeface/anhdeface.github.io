@@ -159,7 +159,7 @@
     <div class="player-info">
       <div>
         <div class="player-name"> Game Tài Xỉu</div>
-        <div class="balance">Số dư: <span id="balance">1000</span></div>
+        <div class="balance">Số dư: <span id="balance"></span></div>
       </div>
     </div>
 
@@ -225,7 +225,7 @@
     const lossElement = document.querySelector('.loss');
     const randomNumberElement = document.querySelector('.random-number');
 
-    let betAmount = 100;
+    let betAmount = 00;
     let selectedChoice = '';
     let playerInfo = {};
 		  
@@ -241,9 +241,7 @@
     };
   }
 
-      playerNameElement.textContent = playerInfo.name;
       balanceElement.textContent = `$${playerInfo.balance}`;
-      document.querySelector('.player-icon').src = playerInfo.icon;
     }
 
     // Lưu thông tin người chơi vào local storage
