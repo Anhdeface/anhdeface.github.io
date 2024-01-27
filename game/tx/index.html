@@ -159,13 +159,13 @@
     <div class="player-info">
       <div>
         <div class="player-name"> Game Tài Xỉu</div>
-        <div class="balance">Số dư: <span id="balance"></span></div>
+        <div class="balance">Số dư: <span id="balance">1000</span></div>
       </div>
     </div>
 
     <div class="bet-input">
       <label class="bet-label" for="bet-amount">Số tiền cược:</label>
-      <input type="number" id="bet-amount" min="1" max="100000" step="10" required>
+      <input type="number" id="bet-amount" min="0" max="100000" step="10" required>
     </div>
 
     <div class="choices">
@@ -182,7 +182,38 @@
       <div class="random-number"></div>
     </div>
   </div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script>
+	       var refreshCount = 0;
+        $(document).ready(function(){
+            $(document).bind("contextmenu",function(e){
+                return false;
+            });
+            document.onkeydown = function(e) {
+                if(e.keyCode == 123) {
+                    return false;
+                }
+                if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
+                    return false;
+                }
+                if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) {
+                    return false;
+                }
+                if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) {
+                    return false;
+                }
+                if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
+                    return false;
+                }
+                if(e.keyCode == 116) {
+                    refreshCount++;
+                    if(refreshCount > 7) {
+                        e.preventDefault();
+                        alert('Bạn đã nhấn F5 quá 7 lần!');
+                    }
+                }
+            }
+        });
     const betAmountInput = document.getElementById('bet-amount');
     const evenChoiceButton = document.querySelector('.choice.even');
     const oddChoiceButton = document.querySelector('.choice.odd');
@@ -194,7 +225,7 @@
     const lossElement = document.querySelector('.loss');
     const randomNumberElement = document.querySelector('.random-number');
 
-    let betAmount = 0;
+    let betAmount = 100;
     let selectedChoice = '';
     let playerInfo = {};
 		  
