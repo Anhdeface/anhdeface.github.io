@@ -197,10 +197,7 @@
     let betAmount = 0;
     let selectedChoice = '';
     let playerInfo = {};
-	const resetButton = document.createElement('button');
-resetButton.textContent = 'Reset Data';
-document.body.appendChild(resetButton);
-	  resetButton.addEventListener('click', function () {
+		  
     // Load thông tin người chơi từ local storage hoặc mặc định
     function loadPlayerInfo() {
       playerInfo = JSON.parse(localStorage.getItem('playerInfo')) || {
@@ -282,6 +279,14 @@ document.body.appendChild(resetButton);
     window.addEventListener('load', function () {
       loadPlayerInfo();
     });
+		const resetButton = document.createElement('button');
+resetButton.textContent = 'Reset Data';
+document.body.appendChild(resetButton);
+	  resetButton.addEventListener('click', function () {
+		  localStorage.removeItem('playerInfo');
+  // Tải lại thông tin người chơi
+  loadPlayerInfo();
+});
   </script>
 </body>
  </script>
