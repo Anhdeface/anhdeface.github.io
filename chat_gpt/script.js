@@ -5,7 +5,7 @@ const themeButton = document.querySelector("#theme-btn");
 const deleteButton = document.querySelector("#delete-btn");
 
 let userText = null;
-const API_KEY = "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"; // Key API của bạn
+const API_KEY = "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"; // Key API của bạn
 
 const loadDataFromLocalstorage = () => {
     const themeColor = localStorage.getItem("themeColor");
