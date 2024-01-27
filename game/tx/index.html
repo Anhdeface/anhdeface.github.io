@@ -158,14 +158,14 @@
     <h1>Mini Game Online</h1>
     <div class="player-info">
       <div>
-        <div class="player-name"> Game : <span id="player-name">Tài Xỉu</span></div>
+        <div class="player-name"> Game Tài Xỉu</div>
         <div class="balance">Số dư: <span id="balance"></span></div>
       </div>
     </div>
 
     <div class="bet-input">
       <label class="bet-label" for="bet-amount">Số tiền cược:</label>
-      <input type="number" id="bet-amount" min="1" max="100" step="10" required>
+      <input type="number" id="bet-amount" min="1" max="100000" step="10" required>
     </div>
 
     <div class="choices">
@@ -201,9 +201,9 @@
     // Load thông tin người chơi từ local storage hoặc mặc định
     function loadPlayerInfo() {
       playerInfo = JSON.parse(localStorage.getItem('playerInfo')) || {
-        balance: 10,
+        balance: 1000,
       };
-	 if (playerInfo.balance === 0) {
+	 if (playerInfo.balance <= 0) {
     localStorage.removeItem('playerInfo');
     playerInfo = {
       balance: 1000,
