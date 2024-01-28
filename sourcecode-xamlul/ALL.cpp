@@ -81,3 +81,7 @@ int main () {
         cout<<dec(code[j])<<endl;
 }
 // source 5
+for(int i=2;i<x;i++){
+    if(x%i==0)
+    return false;
+// source 6
