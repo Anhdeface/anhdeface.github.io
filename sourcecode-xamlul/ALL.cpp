@@ -119,3 +119,22 @@ int main () {
     cout<<x;
 }
 //source 8
+#include<bits/stdc++.h>
+using namespace std;
+int main () {
+int n,arr[1000]{0},a[300]{0},m=0;
+cin>>n;
+for(int i=0;i<n;i++)
+    cin>>arr[i];
+sort(arr,arr+n);
+for(int i=0;i<n;i++)
+{
+    a[arr[i]]+=1;
+    m=max(m,a[arr[i]]);
+}
+for(int i=n;i>=0;i--){
+        if(a[arr[i]]==m)
+        {cout<<arr[i]<<" "<<m;break;}
+}
+}
+//source 9
