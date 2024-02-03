@@ -98,3 +98,24 @@ int main () {
 
 }
 // source 7
+#include<bits/stdc++.h>
+using namespace std;
+bool check (int n){
+if(n<2)
+return false;
+for(int i=2;i<n;i++){
+    if(n%i==0)
+        return false;
+}
+return true;
+}
+int main () {
+    int x;
+    cin>>x;
+    while(true)
+    {if(check(x))
+        break;
+        x++;}
+    cout<<x;
+}
+//source 8
