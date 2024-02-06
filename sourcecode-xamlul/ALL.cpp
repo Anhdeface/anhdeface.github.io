@@ -138,3 +138,23 @@ for(int i=n;i>=0;i--){
 }
 }
 //source 9
+#include<bits/stdc++.h>
+using namespace std;
+bool _c_ (int n){
+    int root = sqrt(n);
+    if(root*root==n&&n%2!=0)
+    return true;
+    else
+        return false;
+}
+int main () {
+int n,sum=0,d=0;
+cin>>n;
+for(int i=1;i<=n;i++){
+    if(_c_(i))
+        {d++;sum+=i;}
+}
+cout<<d<<endl;
+cout<<sum<<endl;
+}
+// source 10
