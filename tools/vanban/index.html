@@ -11,19 +11,47 @@
 <p style="font-size:20px;">Công Cụ Chuyển Đổi Văn Bản</p>
 <p style="font-size:18px;">Từ "qUOc aNH" --> "Quoc Anh"</p>
 
-<input type="text" id="inputText" value="" style="width:400px; height:50px;">
-<button onclick="displayResult()" style="background-color:green; color:white; border:none; padding:10px 30px;">CHUYỂN ĐỔI</button>
+<input type="text" id="inputText" value="" style="width:300px; height:70px;">
+<button onclick="displayResult()" style="background-color:green; color:white; border:none; padding:40px 30px;">CHUYỂN ĐỔI</button>
 
 <div id="resultBox" style="border:2px solid black; padding:30px; margin-top:40px; width:300px;">
     <p id="result"></p>
 </div>
 
 <script>
-let count=0;let lastConverted=Date.now();function poss(s){s=s.trim();s=s.toLowerCase();let words=s.split(' ');for(let i=0;i<words.length;i++){words[i]=words[i].charAt(0).toUpperCase()+words[i].substring(1)}
-return words.join(' ')}
-function displayResult(){let now=Date.now();if(now-lastConverted<180000){if(count>=10){alert('Bạn đã chuyển đổi 10 lần trong 3 phút qua. Vui lòng thử lại sau.');return}}else{count=0;lastConverted=now}
-let s=document.getElementById("inputText").value;if(s===''){alert('Vui lòng nhập văn bản trước khi chuyển đổi!');return}
-let result=poss(s);document.getElementById("result").innerHTML=result;count++
+let count = 0;
+let lastConverted = Date.now();
+
+function poss(s) {
+    s = s.trim();
+    s = s.toLowerCase();
+    let words = s.split(' ');
+    for(let i = 0; i < words.length; i++) {
+        words[i] = words[i].charAt(0).toUpperCase() + words[i].substring(1);
+    }
+    return words.join(' ');
+}
+
+function displayResult() {
+    let now = Date.now();
+    if(now - lastConverted < 180000) { // 180000 milliseconds = 3 minutes
+        if(count >= 10) {
+            alert('Bạn đã chuyển đổi 10 lần trong 3 phút qua. Vui lòng thử lại sau.');
+            return;
+        }
+    } else {
+        count = 0;
+        lastConverted = now;
+    }
+
+    let s = document.getElementById("inputText").value;
+    if(s === '') {
+        alert('Vui lòng nhập văn bản trước khi chuyển đổi!');
+        return;
+    }
+    let result = poss(s);
+    document.getElementById("result").innerHTML = result;
+    count++;
 </script>
 
 </body>
