@@ -158,3 +158,30 @@ cout<<d<<endl;
 cout<<sum<<endl;
 }
 // source 10
+#include<bits/stdc++.h>
+using namespace std;
+int _fun (int n){
+string s;
+s = to_string(n);
+return s.size();
+}
+
+int main () {
+int n,q;
+cin>>n>>q;
+for(int j=1;j<=10;j++){
+for(int i=n;i<=q;i++)
+{
+    if(_fun(i*j)<2)
+        cout<<"  "<<i<<"*"<<j<<"="<<i*j<<" "<<" ";
+    else if(j==10)
+        cout<<"  "<<i<<"*"<<j<<"="<<i*j;
+    else
+        cout<<"  "<<i<<"*"<<j<<"="<<i*j<<" ";
+
+
+}
+cout<<endl;
+}
+}
+//source 11
