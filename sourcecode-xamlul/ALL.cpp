@@ -185,3 +185,35 @@ cout<<endl;
 }
 }
 //source 11
+#include<bits/stdc++.h>
+using namespace std;
+int tengoi (string s){
+    int countt=0,_max=0;
+for(int i=0;i<s.size();i++){
+    if(s[i]>='A' && s[i]<='Z'){
+        if(s[i+1] != 'A' && s[i+1] !='W' && s[i+1] != 'R')
+        countt++;
+        else
+            countt = 0;
+            _max = max(_max,countt);
+    }
+}
+return _max;
+}
+int main() {
+string s[10000];
+int count_=0,n,_full=0;
+//freopen("TenGoi.Inp","r",stdin);
+//freopen("TenGoi.Out","w",stdout);
+cin>>n,cin.ignore();
+for(int i=0;i<n;i++)
+    cin>>s[i];
+for(int i=0;i<n;i++){
+    if(_full<=tengoi(s[i])) {
+        _full = tengoi(s[i]);
+        count_++;
+    }
+}
+cout<<_full<<" "<<count_;
+}
+// source 12
