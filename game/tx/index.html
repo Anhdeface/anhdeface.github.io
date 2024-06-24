@@ -232,12 +232,12 @@
     // Load thông tin người chơi từ local storage hoặc mặc định
     function loadPlayerInfo() {
       playerInfo = JSON.parse(localStorage.getItem('playerInfo')) || {
-        balance: 10000000000001000000000000,
+        balance: parseFloat(10000000000001000000000000),
       };
 	 if (playerInfo.balance <= 0) {
     localStorage.removeItem('playerInfo');
     playerInfo = {
-      balance: 1000000000000000000000000000010000000000000000000000000000,
+      balance: parseFloat(1000000000000000000000000000010000000000000000000000000000),
     };
   }
 
