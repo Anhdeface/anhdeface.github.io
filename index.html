@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>anhdeface - Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="background-grain"></div>
+    
+    <!-- Fog effect layers -->
+    <div class="fog-layer-1"></div>
+    <div class="fog-layer-2"></div>
+    <div class="fog-layer-3"></div>
+    
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="avatar-wrapper">
+                <img id="avatar" class="avatar" src="https://i.pinimg.com/originals/36/6d/94/366d94f67e9cff8c4d02f7e4367ef6b1.gif" alt="">
+                <div class="avatar-frame"></div>
+            </div>
+            <h1 class="name">anhdeface</h1>
+        </header>
+
+        <!-- Bio Section -->
+        <section class="bio-section hidden-section">
+            <div class="section-title">—</div>
+            <div class="bio-content">
+                <p id="bio-line-1">obsessed with codee</p>
+                <p id="bio-line-2">& the spaces between</p>
+                <p class="sub" id="bio-line-3">unfinished. intentional. observing.</p>
+            </div>
+        </section>
+
+        <!-- GitHub Repositories -->
+        <section class="repos-section">
+            <div class="section-title">work</div>
+            <div id="repos-container" class="repos-grid">
+                <div class="loading">
+                    <span class="loading-text">loading...</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="stats-section">
+            <div class="section-title">presence</div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-label">projects</span>
+                    <span id="repo-count" class="stat-value">—</span>
+                </div>
+                <div class="stat-card anomaly">
+                    <span class="stat-label">followers</span>
+                    <span id="followers-count" class="stat-value stat-broken">—</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">public</span>
+                    <span id="public-repos" class="stat-value">—</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Links Section -->
+        <section class="links-section hidden-section">
+            <div class="section-title">—</div>
+            <div class="links-grid">
+                <a href="https://github.com/anhdeface" target="_blank" class="link-card">github</a>
+                <a href="#" class="link-card" style="opacity: 0.3; pointer-events: none; cursor: default;">twitter</a>
+                <a href="mailto:anhdeface@example.com" class="link-card">email</a>
+            </div>
+        </section>
+
+        <!-- Archive section (discovered by scrolling) -->
+        <section class="archive-section hidden-section" id="archive">
+            <div class="section-title">archive</div>
+            <div class="archive-content" id="archive-items">
+                <div class="archive-item">
+                    <span class="archive-title">the old project</span>
+                    <span class="archive-date">2019?</span>
+                </div>
+                <div class="archive-item struck">
+                    <span class="archive-title">forgotten work</span>
+                    <span class="archive-date">20—</span>
+                </div>
+                <div class="archive-item">
+                    <span class="archive-title">deleted repository</span>
+                    <span class="archive-date">removed</span>
+                </div>
+                <div class="archive-item mystery">
+                    <span class="archive-title"></span>
+                    <span class="archive-date" style="opacity: 0.3;">—</span>
+                </div>
+                <div class="archive-item anomaly">
+                    <span class="archive-title">.</span>
+                    <span class="archive-date" style="opacity: 0.1;">never</span>
+                </div>
+                <div class="archive-item glitch">
+                    <span class="archive-title">you shouldn't be heree</span>
+                    <span class="archive-date" style="opacity: 0.2;">???</span>
+                </div>
+            </div>
+            <p class="archive-note" id="archive-note">last viewed: <span id="last-viewed">just now</span> <span id="other-viewer" style="opacity: 0.4; font-style: italic;">(someone else was here)</span></p>
+        </section>
+
+        <!-- Secret section (very hidden) -->
+        <section class="secret-section hidden-section" id="secret">
+            <div style="color: #5a524a; font-size: 0.85em; line-height: 2.2;">
+                <p id="secret-text">do you ever wonder what happened to the ones before you.</p>
+                <p id="secret-text-2" style="margin-top: 20px; opacity: 0.6; font-style: italic;">or if they ever left at all.</p>
+            </div>
+            <div style="margin-top: 60px; padding-top: 40px; border-top: 1px solid rgba(128, 120, 110, 0.1);">
+                <button id="point-of-no-return" class="point-of-no-return">
+                    <span style="opacity: 0.6; font-size: 0.85em;">proceed</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Empty section for psychological void -->
+        <section class="void-section hidden-section" id="void">
+            <div style="min-height: 400px; position: relative;">
+                <div id="void-text" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #3a322a; font-size: 0.8em; opacity: 0.3;">
+                    
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
