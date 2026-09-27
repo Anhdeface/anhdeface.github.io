@@ -1,189 +1,328 @@
-// GitHub API - Fetch Recent Repositories
-const GITHUB_USERNAME = 'anhdeface';
-const CORS_PROXY = 'https://corsproxy.io/?';
-const CACHE_KEY_REPOS = 'github_repos_cache';
-const CACHE_KEY_USER = 'github_user_cache';
-const CACHE_DURATION = 60 * 60 * 1000; // 1 hour in milliseconds
+/**
+ * anhdeface Portfolio - Corporate Memphis & Semi-Flat 2.0
+ * Language: English (US)
+ * Typography: Fredoka + Nunito
+ * Icons: Pure SVG Vector System (No Default OS Emojis)
+ */
 
-// Cache utility functions
-function getCachedData(key) {
-    const cached = localStorage.getItem(key);
-    if (!cached) return null;
-    
-    const { data, timestamp } = JSON.parse(cached);
-    const now = Date.now();
-    
-    // Check if cache is still valid
-    if (now - timestamp > CACHE_DURATION) {
-        localStorage.removeItem(key);
+const GITHUB_USERNAME = 'Anhdeface';
+const CACHE_KEY_USER = 'anhdeface_github_user_v3';
+const CACHE_KEY_REPOS = 'anhdeface_github_repos_v3';
+const CACHE_TTL = 30 * 60 * 1000; // 30 minutes
+
+// Fallback Repositories with natural English descriptions
+const FALLBACK_REPOS = [
+    {
+        name: 'fdebug',
+        description: 'Advanced anti-debug detection and evasion library engineered in Rust.',
+        html_url: 'https://github.com/Anhdeface/fdebug',
+        language: 'Rust',
+        stargazers_count: 2,
+        forks_count: 0
+    },
+    {
+        name: 'rvs',
+        description: 'Reverse engineering analysis, inspection, and low-level binary triage toolkit.',
+        html_url: 'https://github.com/Anhdeface/rvs',
+        language: 'Rust',
+        stargazers_count: 1,
+        forks_count: 0
+    },
+    {
+        name: 'byfu',
+        description: 'LMS system research module with automated client-side interaction utilities.',
+        html_url: 'https://github.com/Anhdeface/byfu',
+        language: 'JavaScript',
+        stargazers_count: 0,
+        forks_count: 0
+    },
+    {
+        name: 'arlogkn',
+        description: 'Read-only Linux diagnostic utility for parsing system logs and auditing hardware.',
+        html_url: 'https://github.com/Anhdeface/arlogkn',
+        language: 'Shell',
+        stargazers_count: 0,
+        forks_count: 0
+    },
+    {
+        name: 'xokj',
+        description: 'Modular TypeScript developer toolchain and developer automation scripts.',
+        html_url: 'https://github.com/Anhdeface/xokj',
+        language: 'TypeScript',
+        stargazers_count: 0,
+        forks_count: 0
+    },
+    {
+        name: 'rifas',
+        description: 'Low-latency systems communication and high-performance network primitives in Go.',
+        html_url: 'https://github.com/Anhdeface/rifas',
+        language: 'Go',
+        stargazers_count: 0,
+        forks_count: 0
+    },
+    {
+        name: 'jimsu',
+        description: 'Lightweight web audio streamer built with Express, EJS templating, and Vue.',
+        html_url: 'https://github.com/Anhdeface/jimsu',
+        language: 'Vue',
+        stargazers_count: 0,
+        forks_count: 0
+    },
+    {
+        name: 'Cnotifi',
+        description: 'Custom Android system notification service and lightweight background daemon.',
+        html_url: 'https://github.com/Anhdeface/Cnotifi',
+        language: 'Kotlin',
+        stargazers_count: 0,
+        forks_count: 0
+    },
+    {
+        name: 'nixos',
+        description: 'Declarative personal NixOS system flake configuration with custom profiles.',
+        html_url: 'https://github.com/Anhdeface/nixos',
+        language: 'Nix',
+        stargazers_count: 0,
+        forks_count: 0
+    }
+];
+
+let allLoadedRepos = [];
+let currentFilter = 'all';
+
+// --- LocalStorage Cache Helpers ---
+function getCache(key) {
+    try {
+        const itemStr = localStorage.getItem(key);
+        if (!itemStr) return null;
+        const item = JSON.parse(itemStr);
+        if (Date.now() - item.timestamp > CACHE_TTL) {
+            localStorage.removeItem(key);
+            return null;
+        }
+        return item.data;
+    } catch (e) {
         return null;
     }
-    
-    return data;
 }
 
-function setCachedData(key, data) {
-    const cacheData = {
-        data: data,
-        timestamp: Date.now()
-    };
-    localStorage.setItem(key, JSON.stringify(cacheData));
-}
-
-// Fetch user data and repositories - with intentional delay
-async function fetchGitHubData() {
-    // Try to load from cache first
-    const cachedRepos = getCachedData(CACHE_KEY_REPOS);
-    const cachedUser = getCachedData(CACHE_KEY_USER);
-    
-    if (cachedRepos && cachedUser) {
-        // Delay reveal for discovery effect (psychological pacing)
-        setTimeout(() => {
-            displayRepositories(cachedRepos);
-            updateStats(cachedUser);
-        }, 800 + Math.random() * 400);
-        
-        // Still fetch fresh data in background
-        fetchGitHubDataAsync();
-        return;
-    }
-    
-    // If no cache, fetch with delay
-    setTimeout(() => {
-        fetchGitHubDataAsync();
-    }, Math.random() * 600);
-}
-
-async function fetchGitHubDataAsync() {
+function setCache(key, data) {
     try {
-        const apiUrl = `https://api.github.com/users/${GITHUB_USERNAME}`;
-        const reposUrl = `https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&order=desc&per_page=6`;
-        
-        // Try direct fetch first, then fallback to CORS proxy
-        let userResponse = await fetch(apiUrl);
-        
-        // If CORS error or rate limit, try with proxy
-        if (!userResponse.ok) {
-            userResponse = await fetch(CORS_PROXY + apiUrl);
-        }
-        
-        if (!userResponse.ok) {
-            throw new Error(`User API failed: ${userResponse.status}`);
-        }
-        
-        const userData = await userResponse.json();
-        setCachedData(CACHE_KEY_USER, userData);
-        updateStats(userData);
-
-        // Fetch repositories
-        let reposResponse = await fetch(reposUrl);
-        
-        if (!reposResponse.ok) {
-            reposResponse = await fetch(CORS_PROXY + reposUrl);
-        }
-        
-        if (!reposResponse.ok) {
-            throw new Error(`Repos API failed: ${reposResponse.status}`);
-        }
-        
-        const repos = await reposResponse.json();
-
-        if (Array.isArray(repos)) {
-            setCachedData(CACHE_KEY_REPOS, repos);
-            displayRepositories(repos);
-        } else {
-            throw new Error('Invalid repos data');
-        }
-    } catch (error) {
-        console.error('Error fetching GitHub data:', error);
-        // If API fails and no cache, show fallback
-        const cachedRepos = getCachedData(CACHE_KEY_REPOS);
-        if (!cachedRepos) {
-            displayRepositories(getDefaultRepos());
-        }
+        localStorage.setItem(key, JSON.stringify({
+            data: data,
+            timestamp: Date.now()
+        }));
+    } catch (e) {
+        console.warn('LocalStorage save failed:', e);
     }
 }
 
-// Update stats - with one broken stat and temporal glitches
-function updateStats(userData) {
-    if (!userData) return;
-    
-    document.getElementById('repo-count').textContent = userData.public_repos || 0;
-    document.getElementById('public-repos').textContent = userData.public_repos || 0;
-    
-    // Anomaly: followers count stays broken/dim
-    const followersEl = document.getElementById('followers-count');
-    followersEl.textContent = '—';
-    followersEl.classList.add('stat-broken');
-}
+// --- Fetch GitHub Data ---
+async function initGitHubData() {
+    // 1. Instant UI rendering via cached data or fallbacks
+    const cachedUser = getCache(CACHE_KEY_USER);
+    const cachedRepos = getCache(CACHE_KEY_REPOS);
 
-// Fallback data in case API fails
-function getDefaultRepos() {
-    return [
-        {
-            name: 'portfolio',
-            description: 'Personal portfolio website',
-            html_url: `https://github.com/${GITHUB_USERNAME}`,
-            language: 'HTML',
-            stargazers_count: 0,
-            forks_count: 0
+    if (cachedUser) {
+        renderUserData(cachedUser);
+    }
+    if (cachedRepos && Array.isArray(cachedRepos) && cachedRepos.length > 0) {
+        allLoadedRepos = cachedRepos;
+        renderRepos(cachedRepos);
+        calculateStars(cachedRepos);
+    } else {
+        allLoadedRepos = FALLBACK_REPOS;
+        renderRepos(FALLBACK_REPOS);
+        calculateStars(FALLBACK_REPOS);
+    }
+
+    // 2. Fetch fresh real-time data in the background
+    try {
+        const [userRes, reposRes] = await Promise.all([
+            fetch(`https://api.github.com/users/${GITHUB_USERNAME}`),
+            fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=30`)
+        ]);
+
+        if (userRes.ok) {
+            const userData = await userRes.json();
+            setCache(CACHE_KEY_USER, userData);
+            renderUserData(userData);
         }
-    ];
+
+        if (reposRes.ok) {
+            const reposData = await reposRes.json();
+            if (Array.isArray(reposData) && reposData.length > 0) {
+                setCache(CACHE_KEY_REPOS, reposData);
+                allLoadedRepos = reposData;
+                renderRepos(filterReposList(allLoadedRepos, currentFilter));
+                calculateStars(allLoadedRepos);
+            }
+        }
+    } catch (err) {
+        console.info('GitHub API fetch failed or rate-limited; cached/fallback state retained.', err);
+    }
 }
 
-// Display repositories in the grid - with staggered reveal
-function displayRepositories(repos) {
+// Render User Info & Stats
+function renderUserData(user) {
+    if (!user) return;
+    
+    const statRepos = document.getElementById('stat-repos');
+    const statFollowers = document.getElementById('stat-followers');
+    const statFollowing = document.getElementById('stat-following');
+    const heroAvatar = document.getElementById('hero-avatar');
+    const navAvatar = document.getElementById('nav-avatar');
+    const profileName = document.getElementById('profile-name');
+
+    if (statRepos && user.public_repos !== undefined) statRepos.textContent = user.public_repos;
+    if (statFollowers && user.followers !== undefined) statFollowers.textContent = user.followers;
+    if (statFollowing && user.following !== undefined) statFollowing.textContent = user.following;
+
+    if (user.avatar_url) {
+        if (heroAvatar) heroAvatar.src = user.avatar_url;
+        if (navAvatar) navAvatar.src = user.avatar_url;
+    }
+
+    if (profileName && user.name) {
+        profileName.textContent = user.name;
+    }
+}
+
+// Compute total stars
+function calculateStars(repos) {
+    const statStars = document.getElementById('stat-stars');
+    if (!statStars || !repos) return;
+
+    const totalStars = repos.reduce((sum, repo) => sum + (repo.stargazers_count || 0), 0);
+    statStars.textContent = totalStars;
+}
+
+// Filter repo list
+function filterReposList(repos, filter) {
+    if (filter === 'all') return repos;
+    if (filter === 'rust') {
+        return repos.filter(r => (r.language || '').toLowerCase() === 'rust');
+    }
+    if (filter === 'go') {
+        return repos.filter(r => (r.language || '').toLowerCase() === 'go');
+    }
+    if (filter === 'typescript') {
+        return repos.filter(r => {
+            const lang = (r.language || '').toLowerCase();
+            return lang === 'typescript' || lang === 'javascript';
+        });
+    }
+    if (filter === 'other') {
+        return repos.filter(r => {
+            const lang = (r.language || '').toLowerCase();
+            return !['rust', 'go', 'typescript', 'javascript'].includes(lang);
+        });
+    }
+    return repos;
+}
+
+// SVG Vector Language Badge (Consistent across all devices)
+function getLanguageBadge(language) {
+    if (!language) return '';
+    const lang = language.toLowerCase();
+
+    // Standard vector icons for languages
+    const icons = {
+        rust: `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>`,
+        go: `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
+        typescript: `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>`,
+        javascript: `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M16 8v8"/><path d="M8 12a4 4 0 0 0 4 4"/></svg>`,
+        vue: `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="2 3 12 21 22 3"/><polyline points="7 3 12 12 17 3"/></svg>`,
+        kotlin: `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>`,
+        shell: `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>`,
+        nix: `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M4.93 19.07l14.14-14.14"/></svg>`,
+        c: `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="4" y="4" width="16" height="16" rx="2"/></svg>`,
+        'c++': `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="4" y="4" width="16" height="16" rx="2"/></svg>`
+    };
+
+    const styles = {
+        rust: { bg: 'var(--accent-coral-soft)', color: 'var(--accent-coral)' },
+        go: { bg: 'var(--accent-cyan-soft)', color: 'var(--accent-cyan)' },
+        typescript: { bg: 'var(--accent-blue-soft)', color: 'var(--accent-blue)' },
+        javascript: { bg: 'var(--accent-yellow-soft)', color: '#996800' },
+        vue: { bg: 'var(--accent-green-soft)', color: 'var(--accent-green)' },
+        kotlin: { bg: 'var(--accent-purple-soft)', color: 'var(--accent-purple)' },
+        shell: { bg: 'var(--accent-yellow-soft)', color: '#8c6000' },
+        nix: { bg: 'var(--accent-cyan-soft)', color: '#007799' },
+        c: { bg: 'var(--accent-blue-soft)', color: 'var(--accent-blue)' },
+        'c++': { bg: 'var(--accent-blue-soft)', color: 'var(--accent-blue)' }
+    };
+
+    const conf = styles[lang] || { bg: 'var(--bg-surface-soft)', color: 'var(--text-secondary)' };
+    const iconSvg = icons[lang] || `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/></svg>`;
+
+    return `
+        <span class="repo-lang-badge" style="background: ${conf.bg}; color: ${conf.color};">
+            ${iconSvg}
+            <span>${escapeHtml(language)}</span>
+        </span>
+    `;
+}
+
+// Render Repositories in Grid
+function renderRepos(repos) {
     const container = document.getElementById('repos-container');
-    
-    if (!repos || !repos.length) {
-        container.innerHTML = '<div class="loading"><span class="loading-text">—</span></div>';
-        return;
-    }
+    if (!container) return;
 
-    // Filter out forked repos
-    const filteredRepos = repos.filter(repo => !repo.fork || repo.stargazers_count > 0);
-    
-    if (!filteredRepos.length) {
-        container.innerHTML = '<div class="loading"><span class="loading-text">—</span></div>';
-        return;
-    }
-
-    // Build repos with staggered timing and responsive grid
-    const reposHtml = filteredRepos.slice(0, 6).map((repo, idx) => {
-        // Anomaly: make one repo card not hover
-        const isAnomaly = idx === 2;
-        return `
-        <a href="${repo.html_url}" target="_blank" class="repo-card ${isAnomaly ? 'delayed' : ''}" style="--delay: ${idx * 0.15}s;" ${isAnomaly ? 'data-anomaly="true"' : ''}>
-            <div class="repo-content">
-                <div class="repo-name">${escapeHtml(repo.name)}</div>
-                <div class="repo-description">${escapeHtml(repo.description || '(no description)')}</div>
+    if (!repos || repos.length === 0) {
+        container.innerHTML = `
+            <div style="grid-column: 1 / -1; text-align: center; padding: 48px; background: var(--bg-surface); border-radius: var(--radius-lg); border: 2.5px dashed var(--border-subtle);">
+                <p style="font-family: var(--font-display); font-size: 1.3rem; color: var(--text-secondary);">
+                    No repositories found in this category.
+                </p>
             </div>
-            <div class="repo-meta">
-                <div class="repo-stats">
-                    ${repo.language ? `<span class="repo-language">${escapeHtml(repo.language)}</span>` : ''}
-                    <span class="repo-stat">
-                        ⭐ <span>${repo.stargazers_count || 0}</span>
-                    </span>
-                    <span class="repo-stat">
-                        🔄 <span>${repo.forks_count || 0}</span>
+        `;
+        return;
+    }
+
+    const items = repos.slice(0, 9);
+    const html = items.map(repo => {
+        const langBadge = getLanguageBadge(repo.language);
+        const description = repo.description || 'Open-source systems project exploring modern software architecture.';
+        const stars = repo.stargazers_count || 0;
+        const forks = repo.forks_count || 0;
+
+        return `
+            <a href="${repo.html_url}" target="_blank" rel="noopener noreferrer" class="repo-card" aria-label="View repository ${escapeHtml(repo.name)}">
+                <div>
+                    <div class="repo-card-top">
+                        ${langBadge}
+                        <svg class="repo-external-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M7 17L17 7"></path>
+                            <path d="M7 7h10v10"></path>
+                        </svg>
+                    </div>
+                    <h3 class="repo-title">${escapeHtml(repo.name)}</h3>
+                    <p class="repo-description">${escapeHtml(description)}</p>
+                </div>
+                <div class="repo-footer">
+                    <div class="repo-stats-group">
+                        <span class="repo-stat-item" title="Stars count">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                            ${stars}
+                        </span>
+                        <span class="repo-stat-item" title="Forks count">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="6" cy="18" r="3"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 9v6"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>
+                            ${forks}
+                        </span>
+                    </div>
+                    <span class="repo-cta-text">
+                        <span>Inspect Code</span>
+                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                     </span>
                 </div>
-            </div>
-        </a>
-    `;
+            </a>
+        `;
     }).join('');
 
-    container.innerHTML = reposHtml;
-    
-    // Trigger reveal animation
-    setTimeout(() => {
-        document.querySelectorAll('.repo-card').forEach(card => {
-            card.classList.add('visible');
-        });
-    }, 50);
+    container.innerHTML = html;
 }
 
-// Escape HTML to prevent XSS
+// Escape HTML utility
 function escapeHtml(text) {
     if (!text) return '';
     const div = document.createElement('div');
@@ -191,544 +330,169 @@ function escapeHtml(text) {
     return div.innerHTML;
 }
 
-// Add random flickering effect to random elements (subtle)
-function addRandomFlicker() {
-    setInterval(() => {
-        // Occasionally make text subtly dim
-        if (Math.random() > 0.95) {
-            const elements = document.querySelectorAll('.repo-card, .stat-card');
-            const randomElement = elements[Math.floor(Math.random() * elements.length)];
-            
-            if (randomElement) {
-                randomElement.style.opacity = '0.7';
+// Setup Repository Filter Buttons
+function setupRepoFilters() {
+    const filterButtons = document.querySelectorAll('.filter-pill');
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const filterValue = btn.dataset.filter || 'all';
+            currentFilter = filterValue;
+            const filtered = filterReposList(allLoadedRepos, filterValue);
+            renderRepos(filtered);
+        });
+    });
+}
+
+
+// --- Copy Discord/Username button ---
+function setupCopyHandle() {
+    const copyBtn = document.getElementById('copy-handle-btn');
+    const copyText = document.getElementById('copy-btn-text');
+
+    if (copyBtn && copyText) {
+        copyBtn.addEventListener('click', async () => {
+            const handle = 'anhdeface';
+            try {
+                await navigator.clipboard.writeText(handle);
+                copyText.textContent = 'Copied: anhdeface!';
+                copyBtn.style.borderColor = 'var(--accent-green)';
+                copyBtn.style.background = 'var(--accent-green-soft)';
+
                 setTimeout(() => {
-                    randomElement.style.opacity = '1';
-                }, 150 + Math.random() * 100);
+                    copyText.textContent = 'Copy Handle';
+                    copyBtn.style.borderColor = '';
+                    copyBtn.style.background = '';
+                }, 2200);
+            } catch (err) {
+                copyText.textContent = 'Handle: anhdeface';
             }
-        }
-    }, 1000 + Math.random() * 3000);
+        });
+    }
 }
 
-// Initialize on page load
+// --- Memphis Confetti Particle Canvas ---
+let confettiParticles = [];
+let confettiAnimationId = null;
+
+function setupConfettiCanvas() {
+    const canvas = document.getElementById('confetti-canvas');
+    if (!canvas) return;
+
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    const avatarTarget = document.getElementById('avatar-click-target');
+
+    if (avatarTarget) {
+        avatarTarget.addEventListener('click', () => {
+            const rect = avatarTarget.getBoundingClientRect();
+            const x = rect.left + rect.width / 2;
+            const y = rect.top + rect.height / 2;
+            burstConfetti(x, y, 36);
+        });
+    }
+}
+
+function burstConfetti(originX, originY, count = 30) {
+    const canvas = document.getElementById('confetti-canvas');
+    if (!canvas) return;
+
+    const colors = ['#FF6B6B', '#FFD166', '#06D6A0', '#4D96FF', '#9D4EDD', '#FF8E3C'];
+    const shapes = ['circle', 'pill', 'square', 'star'];
+
+    for (let i = 0; i < count; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = 4 + Math.random() * 8;
+        confettiParticles.push({
+            x: originX,
+            y: originY,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed - 3,
+            color: colors[Math.floor(Math.random() * colors.length)],
+            shape: shapes[Math.floor(Math.random() * shapes.length)],
+            size: 6 + Math.random() * 8,
+            rotation: Math.random() * 360,
+            vRot: (Math.random() - 0.5) * 12,
+            gravity: 0.22,
+            life: 1,
+            decay: 0.015 + Math.random() * 0.015
+        });
+    }
+
+    if (!confettiAnimationId) {
+        animateConfetti();
+    }
+}
+
+function animateConfetti() {
+    const canvas = document.getElementById('confetti-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    for (let i = confettiParticles.length - 1; i >= 0; i--) {
+        const p = confettiParticles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += p.gravity;
+        p.rotation += p.vRot;
+        p.life -= p.decay;
+
+        if (p.life <= 0) {
+            confettiParticles.splice(i, 1);
+            continue;
+        }
+
+        ctx.save();
+        ctx.globalAlpha = Math.max(0, p.life);
+        ctx.translate(p.x, p.y);
+        ctx.rotate((p.rotation * Math.PI) / 180);
+        ctx.fillStyle = p.color;
+
+        if (p.shape === 'circle') {
+            ctx.beginPath();
+            ctx.arc(0, 0, p.size / 2, 0, Math.PI * 2);
+            ctx.fill();
+        } else if (p.shape === 'pill') {
+            ctx.beginPath();
+            ctx.roundRect(-p.size, -p.size / 2.5, p.size * 2, p.size * 0.8, 6);
+            ctx.fill();
+        } else if (p.shape === 'square') {
+            ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+        } else if (p.shape === 'star') {
+            ctx.beginPath();
+            const s = p.size;
+            ctx.moveTo(0, -s);
+            ctx.quadraticCurveTo(0, 0, s, 0);
+            ctx.quadraticCurveTo(0, 0, 0, s);
+            ctx.quadraticCurveTo(0, 0, -s, 0);
+            ctx.quadraticCurveTo(0, 0, 0, -s);
+            ctx.fill();
+        }
+
+        ctx.restore();
+    }
+
+    if (confettiParticles.length > 0) {
+        confettiAnimationId = requestAnimationFrame(animateConfetti);
+    } else {
+        confettiAnimationId = null;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+}
+
+// --- DOM Ready Lifecycle ---
 document.addEventListener('DOMContentLoaded', () => {
-    fetchGitHubData();
-    addRandomFlicker();
-    revealHiddenSections();
-    trackCursorMovement();
-    setupTemporalEffects();
-    setupSecretContent();
-    setupAutonomousBehavior();
-    setupTabTitleChange();
-    setupTextGlitchEffect();
-    setupOtherViewerPresence();
-    setupScrollGlitch();
-    setupAutonomousChanges();
-    setupRhythmDisruption();
-    setupControlLoss();
-    setupFogEffects();
-    
-    // Refresh data every 10 minutes (if user is active)
-    setInterval(fetchGitHubDataAsync, 10 * 60 * 1000);
+    setupRepoFilters();
+    setupCopyHandle();
+    setupConfettiCanvas();
+    initGitHubData();
 });
-
-// Reveal hidden sections on scroll (discovery mechanism)
-function revealHiddenSections() {
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-    
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
-    
-    document.querySelectorAll('.hidden-section').forEach(section => {
-        observer.observe(section);
-    });
-}
-
-// Subtle cursor tracking - with delay (feels unresponsive)
-function trackCursorMovement() {
-    let mouseX = 0;
-    let mouseY = 0;
-    let avatarX = 0;
-    let avatarY = 0;
-    
-    document.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-    }, { passive: true });
-    
-    // Avatar moves with delay - not in sync
-    setInterval(() => {
-        const avatar = document.getElementById('avatar');
-        if (avatar) {
-            const rect = avatar.getBoundingClientRect();
-            const centerX = rect.left + rect.width / 2;
-            const centerY = rect.top + rect.height / 2;
-            
-            // Target position
-            const targetX = (mouseX - centerX) * 0.015;
-            const targetY = (mouseY - centerY) * 0.015;
-            
-            // Lerp with delay - creates lag feeling
-            avatarX += (targetX - avatarX) * 0.08;
-            avatarY += (targetY - avatarY) * 0.08;
-            
-            avatar.style.transform = `translate(${avatarX}px, ${avatarY}px)`;
-        }
-    }, 50);
-}
-
-// Temporal effects: content changes over time (simulates aging)
-function setupTemporalEffects() {
-    const bioLine1 = document.getElementById('bio-line-1');
-    const bioLine2 = document.getElementById('bio-line-2');
-    const bioLine3 = document.getElementById('bio-line-3');
-    
-    let timeSpent = 0;
-    const interval = setInterval(() => {
-        timeSpent += 1;
-        
-        // After 90 seconds, change text subtly
-        if (timeSpent === 90 && bioLine2) {
-            bioLine2.textContent = 'in code. in silence.';
-            bioLine2.style.color = '#6b6158';
-        }
-        
-        // After 180 seconds, change again
-        if (timeSpent === 180 && bioLine3) {
-            bioLine3.textContent = 'forgotten. archived. observing.';
-        }
-        
-        // After 270 seconds, change bio hint
-        if (timeSpent === 270 && bioLine1) {
-            bioLine1.style.opacity = '0.7';
-        }
-    }, 1000);
-}
-
-// Secret content - only reveal on scroll past threshold
-function setupSecretContent() {
-    const secretSection = document.getElementById('secret');
-    const pointOfNoReturn = document.getElementById('point-of-no-return');
-    let hasBeenRevealed = false;
-    
-    // Track if user crossed point of no return
-    let crossedNoReturn = localStorage.getItem('crossed-no-return') === 'true';
-    
-    // If already crossed, immediately corrupt page
-    if (crossedNoReturn) {
-        document.body.classList.add('corrupted');
-        // Hide the button
-        if (pointOfNoReturn) pointOfNoReturn.classList.add('activated');
-    }
-    
-    document.addEventListener('scroll', () => {
-        if (hasBeenRevealed) return;
-        
-        const rect = secretSection.getBoundingClientRect();
-        // Only reveal if user scrolls VERY far down
-        if (rect.top < window.innerHeight * 0.8) {
-            hasBeenRevealed = true;
-            secretSection.classList.add('visible');
-        }
-    }, { passive: true });
-    
-    // Point of no return button
-    if (pointOfNoReturn) {
-        pointOfNoReturn.addEventListener('click', () => {
-            // Permanent change - corrupts page state
-            crossedNoReturn = true;
-            localStorage.setItem('crossed-no-return', 'true');
-            
-            // Immediate corruption
-            document.body.classList.add('corrupted');
-            
-            // Change secret text
-            const secretText = document.getElementById('secret-text');
-            if (secretText) {
-                secretText.textContent = 'you were always going to click it.';
-            }
-            
-            // Hide button with fade
-            pointOfNoReturn.classList.add('activated');
-            
-            // Add watching effect
-            setupAutonomousBehavior();
-        });
-    }
-}
-
-// Tab title change effect - follows user after they leave
-function setupTabTitleChange() {
-    const originalTitle = document.title;
-    let hasChanged = false;
-    let tabVisible = true;
-    
-    // Track tab visibility
-    document.addEventListener('visibilitychange', () => {
-        tabVisible = !document.hidden;
-        
-        if (tabVisible && hasChanged) {
-            // User came back - restore original title
-            document.title = originalTitle;
-            hasChanged = false;
-        }
-    });
-    
-    // Change title after 12 seconds if tab is not visible
-    setTimeout(() => {
-        if (!tabVisible && !hasChanged) {
-            document.title = 'still here';
-            hasChanged = true;
-        }
-    }, 12000);
-}
-
-// Text glitch effect - makes user doubt what they read
-function setupTextGlitchEffect() {
-    const bioLine1 = document.getElementById('bio-line-1');
-    const bioLine2 = document.getElementById('bio-line-2');
-    const bioLine3 = document.getElementById('bio-line-3');
-    
-    let lastScrollPosition = 0;
-    let textChangeCount = 0;
-    
-    // Track scroll position changes
-    window.addEventListener('scroll', () => {
-        const currentScroll = window.pageYOffset;
-        const scrollDirection = currentScroll > lastScrollPosition ? 'down' : 'up';
-        
-        // Only change text when scrolling up (returning to sections)
-        if (scrollDirection === 'up' && Math.random() > 0.7 && textChangeCount < 3) {
-            if (bioLine2 && Math.random() > 0.5) {
-                const originalText = bioLine2.textContent;
-                const alternatives = ['& the spaces between', 'in code. in silence.', 'between the lines', ''];
-                const newText = alternatives[Math.floor(Math.random() * alternatives.length)];
-                
-                if (newText !== originalText) {
-                    bioLine2.textContent = newText;
-                    textChangeCount++;
-                    
-                    // Subtle color change to indicate something changed
-                    bioLine2.style.color = '#6b6158';
-                    setTimeout(() => {
-                        bioLine2.style.color = '#a89f94';
-                    }, 2000);
-                }
-            }
-        }
-        
-        lastScrollPosition = currentScroll;
-    }, { passive: true });
-    
-    // Change text when user stays idle for too long
-    let idleTime = 0;
-    let lastActivity = Date.now();
-    
-    ['mousemove', 'click', 'scroll'].forEach(event => {
-        document.addEventListener(event, () => {
-            lastActivity = Date.now();
-            idleTime = 0;
-        }, { passive: true });
-    });
-    
-    setInterval(() => {
-        idleTime = Date.now() - lastActivity;
-        
-        // After 15 seconds of inactivity, subtly change text
-        if (idleTime > 15000 && bioLine3 && Math.random() > 0.8 && textChangeCount < 2) {
-            const originalText = bioLine3.textContent;
-            const alternatives = ['unfinished. intentional. observing.', 'forgotten. archived. observing.', 'watching. waiting.'];
-            const newText = alternatives[Math.floor(Math.random() * alternatives.length)];
-            
-            if (newText !== originalText) {
-                bioLine3.textContent = newText;
-                textChangeCount++;
-            }
-        }
-    }, 5000);
-}
-
-// Other viewer presence effect
-function setupOtherViewerPresence() {
-    const otherViewer = document.getElementById('other-viewer');
-    if (!otherViewer) return;
-    
-    // Randomly show/hide the "someone else was here" text
-    setInterval(() => {
-        if (Math.random() > 0.6) {
-            otherViewer.style.opacity = '0.4';
-            otherViewer.style.transition = 'opacity 2s ease';
-        } else {
-            otherViewer.style.opacity = '0';
-        }
-    }, 8000 + Math.random() * 4000);
-    
-    // Occasionally change the text
-    setInterval(() => {
-        const alternatives = ['(someone else was here)', '(they watched too)', '(still watching)', ''];
-        const newText = alternatives[Math.floor(Math.random() * alternatives.length)];
-        
-        if (newText) {
-            otherViewer.textContent = newText;
-            otherViewer.style.opacity = '0.3';
-        }
-    }, 20000 + Math.random() * 10000);
-}
-
-// Scroll glitch - moment where scroll suddenly slows down
-function setupScrollGlitch() {
-    let hasTriggered = false;
-    let scrollCount = 0;
-    
-    window.addEventListener('scroll', () => {
-        scrollCount++;
-        
-        // Trigger on 7th scroll, only once
-        if (scrollCount === 7 && !hasTriggered) {
-            hasTriggered = true;
-            
-            // Temporarily disable smooth scrolling
-            document.documentElement.style.scrollBehavior = 'auto';
-            document.body.style.scrollBehavior = 'auto';
-            
-            // Force slow scroll for 1.5 seconds
-            const startY = window.pageYOffset;
-            const startTime = Date.now();
-            const duration = 1500;
-            
-            function slowScroll() {
-                const elapsed = Date.now() - startTime;
-                if (elapsed < duration) {
-                    window.scrollTo(0, startY + (elapsed / duration) * 2);
-                    requestAnimationFrame(slowScroll);
-                } else {
-                    // Restore normal scrolling
-                    document.documentElement.style.scrollBehavior = '';
-                    document.body.style.scrollBehavior = '';
-                }
-            }
-            
-            requestAnimationFrame(slowScroll);
-        }
-    }, { passive: true });
-}
-
-// Autonomous changes - content changes without user interaction
-function setupAutonomousChanges() {
-    const secretText2 = document.getElementById('secret-text-2');
-    if (!secretText2) return;
-    
-    // Wait 25 seconds, then change text completely
-    setTimeout(() => {
-        secretText2.textContent = 'they are still here.';
-        secretText2.style.opacity = '0.8';
-        secretText2.style.color = '#4a3a2a';
-    }, 25000);
-    
-    // Change bio line 1 after 40 seconds
-    setTimeout(() => {
-        const bioLine1 = document.getElementById('bio-line-1');
-        if (bioLine1) {
-            bioLine1.textContent = 'obsessed with youu';
-            bioLine1.style.color = '#6a5a4a';
-        }
-    }, 40000);
-}
-
-// Rhythm disruption - break the consistent pace
-function setupRhythmDisruption() {
-    const repos = document.querySelectorAll('.repo-card');
-    if (repos.length < 3) return;
-    
-    // Make 3rd repo card extremely slow
-    repos[2].style.transition = 'all 3s ease-in-out';
-    
-    // Make 5th repo card extremely fast (if exists)
-    if (repos[4]) {
-        repos[4].style.transition = 'all 0.1s ease';
-    }
-    
-    // Make one stat card completely static
-    const statCards = document.querySelectorAll('.stat-card');
-    if (statCards[1]) {
-        statCards[1].style.transition = 'none';
-        statCards[1].style.transform = 'translateY(1px)';
-    }
-}
-
-// Control loss - make user lose control temporarily
-function setupControlLoss() {
-    let hasTriggered = false;
-    
-    document.addEventListener('scroll', () => {
-        if (!hasTriggered && window.pageYOffset > 800) {
-            hasTriggered = true;
-            
-            // Make scroll jump up slightly
-            setTimeout(() => {
-                window.scrollTo(0, window.pageYOffset - 50);
-            }, 100);
-        }
-    }, { passive: true });
-    
-    // Cursor offset glitch - happens once after 30 seconds
-    setTimeout(() => {
-        document.body.style.cursor = 'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'20\' height=\'20\'><circle cx=\'12\' cy=\'12\' r=\'2\' fill=\'%238b8680\' opacity=\'0.6\'/></svg>") 12 12, auto';
-        
-        // Reset after 3 seconds
-        setTimeout(() => {
-            document.body.style.cursor = '';
-        }, 3000);
-    }, 30000);
-    
-    // Make one text uncopyable
-    const glitchItem = document.querySelector('.archive-item.glitch .archive-title');
-    if (glitchItem) {
-        glitchItem.style.userSelect = 'none';
-        glitchItem.style.webkitUserSelect = 'none';
-        glitchItem.addEventListener('selectstart', (e) => e.preventDefault());
-    }
-}
-
-// Autonomous behavior - page acts independently
-function setupAutonomousBehavior() {
-    let hasReachedNoReturn = localStorage.getItem('crossed-no-return') === 'true';
-    let idleTime = 0;
-    let lastActivityTime = Date.now();
-    
-    // Track user activity
-    document.addEventListener('mousemove', () => {
-        lastActivityTime = Date.now();
-        idleTime = 0;
-    }, { passive: true });
-    
-    document.addEventListener('click', () => {
-        lastActivityTime = Date.now();
-        idleTime = 0;
-    }, { passive: true });
-    
-    // Page observes user inactivity
-    setInterval(() => {
-        const now = Date.now();
-        idleTime = now - lastActivityTime;
-        
-        // After 8 seconds of inactivity
-        if (idleTime > 8000) {
-            triggerAutonomousEvent();
-        }
-        
-        // If crossed no return, page gets more active
-        if (hasReachedNoReturn && idleTime > 15000) {
-            triggerHostileEvent();
-        }
-    }, 1000);
-}
-
-function triggerAutonomousEvent() {
-    const avatar = document.getElementById('avatar');
-    if (!avatar) return;
-    
-    // Avatar subtly reorients itself even when not hovering
-    const rect = avatar.getBoundingClientRect();
-    const randomAngle = (Math.random() - 0.5) * 3;
-    
-    avatar.style.filter = `grayscale(100%) contrast(0.9) rotate(${randomAngle}deg)`;
-    
-    setTimeout(() => {
-        avatar.style.filter = 'grayscale(100%) contrast(0.9) rotate(0deg)';
-    }, 300);
-}
-
-function triggerHostileEvent() {
-    // Page itself reacts - background flickers
-    const grain = document.querySelector('.background-grain');
-    if (!grain) return;
-    
-    const originalOpacity = grain.style.opacity;
-    grain.style.opacity = '1';
-    
-    setTimeout(() => {
-        grain.style.opacity = originalOpacity;
-    }, 200);
-    
-    // Subtitle changes appear
-    const bioLine = document.getElementById('bio-line-1');
-    if (bioLine && Math.random() > 0.7) {
-        bioLine.style.opacity = '0.5';
-        setTimeout(() => {
-            bioLine.style.opacity = '1';
-        }, 500);
-    }
-}
-
-// Fog effects - dynamic fog behavior
-function setupFogEffects() {
-    const fog1 = document.querySelector('.fog-layer-1');
-    const fog2 = document.querySelector('.fog-layer-2');
-    const fog3 = document.querySelector('.fog-layer-3');
-    
-    if (!fog1 || !fog2 || !fog3) return;
-    
-    let scrollIntensity = 0;
-    
-    // Fog responds to scroll
-    window.addEventListener('scroll', () => {
-        scrollIntensity = Math.min(window.pageYOffset / 1000, 1);
-        
-        // Increase fog density as user scrolls down
-        fog1.style.opacity = 0.6 + (scrollIntensity * 0.3);
-        fog2.style.opacity = 0.4 + (scrollIntensity * 0.2);
-        fog3.style.opacity = 0.3 + (scrollIntensity * 0.4);
-    }, { passive: true });
-    
-    // Fog thickens during inactivity
-    let idleTime = 0;
-    let lastActivity = Date.now();
-    
-    ['mousemove', 'click', 'scroll'].forEach(event => {
-        document.addEventListener(event, () => {
-            lastActivity = Date.now();
-            idleTime = 0;
-        }, { passive: true });
-    });
-    
-    setInterval(() => {
-        idleTime = Date.now() - lastActivity;
-        
-        // After 20 seconds of inactivity, fog thickens
-        if (idleTime > 20000) {
-            const thickening = Math.min((idleTime - 20000) / 30000, 0.5);
-            fog1.style.opacity = Math.min(0.9, 0.6 + thickening);
-            fog2.style.opacity = Math.min(0.7, 0.4 + thickening);
-            fog3.style.opacity = Math.min(0.8, 0.3 + thickening);
-            
-            // Add subtle red tint to fog when very inactive
-            if (idleTime > 45000) {
-                fog1.style.background = 'radial-gradient(ellipse at center, rgba(23, 13, 13, 0) 0%, rgba(33, 13, 13, 0.4) 50%, rgba(43, 13, 13, 0.8) 100%)';
-            }
-        } else {
-            // Reset fog when user becomes active
-            fog1.style.background = '';
-        }
-    }, 5000);
-    
-    // Random fog surges
-    setInterval(() => {
-        if (Math.random() > 0.7) {
-            const surge = Math.random() * 0.3;
-            fog2.style.opacity = parseFloat(fog2.style.opacity || 0.4) + surge;
-            
-            setTimeout(() => {
-                fog2.style.opacity = parseFloat(fog2.style.opacity || 0.4) - surge;
-            }, 3000 + Math.random() * 2000);
-        }
-    }, 15000 + Math.random() * 10000);
-}
