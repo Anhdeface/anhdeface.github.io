@@ -1,419 +1,97 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>anhdeface (Quốc Anh) • Systems Developer & Security Enthusiast</title>
-    <meta name="description" content="Portfolio of Quốc Anh (anhdeface) - Systems developer focused on Rust, Go, low-level architecture, and security tooling. Built in Neo-Brutalist & Corporate Memphis Dark style.">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22%23FF6B6B%22><circle cx=%2212%22 cy=%2212%22 r=%2210%22/></svg>">
-    
-    <!-- Google Fonts: Fredoka (Chubby/Bubble Display) + Nunito (Smooth Rounded Body) + JetBrains Mono -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;0,900;1,600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="style.css">
+<title>anhdeface - Quoc Anh</title>
 </head>
 <body>
-    <!-- Decorative Floating Memphis Background Shapes -->
-    <div class="memphis-bg-decorations" aria-hidden="true">
-        <!-- Squiggle 1 -->
-        <svg class="memphis-shape shape-squiggle-1" viewBox="0 0 100 40" fill="none">
-            <path d="M5 20 Q 25 5, 45 20 T 85 20 T 125 20" stroke="var(--accent-coral)" stroke-width="8" stroke-linecap="round"/>
-        </svg>
-        <!-- Sparkle 1 -->
-        <svg class="memphis-shape shape-sparkle-1" viewBox="0 0 40 40" fill="none">
-            <path d="M20 0 C20 11 29 20 40 20 C29 20 20 29 20 40 C20 29 11 20 0 20 C11 20 20 11 20 0 Z" fill="var(--accent-yellow)"/>
-        </svg>
-        <!-- Donut / Hollow Circle -->
-        <div class="memphis-shape shape-donut-1"></div>
-        <!-- Dots Matrix -->
-        <div class="memphis-shape shape-dots-matrix"></div>
-        <!-- Pill shape -->
-        <div class="memphis-shape shape-pill-1"></div>
-        <!-- Sparkle 2 -->
-        <svg class="memphis-shape shape-sparkle-2" viewBox="0 0 40 40" fill="none">
-            <path d="M20 0 C20 11 29 20 40 20 C29 20 20 29 20 40 C20 29 11 20 0 20 C11 20 20 11 20 0 Z" fill="var(--accent-purple)"/>
-        </svg>
-        <!-- Triangle / Arch -->
-        <div class="memphis-shape shape-arch-1"></div>
-        <!-- Squiggle 2 -->
-        <svg class="memphis-shape shape-squiggle-2" viewBox="0 0 100 40" fill="none">
-            <path d="M5 20 Q 25 5, 45 20 T 85 20 T 125 20" stroke="var(--accent-cyan)" stroke-width="8" stroke-linecap="round"/>
-        </svg>
-    </div>
 
-    <!-- Navigation Bar -->
-    <header class="navbar-wrapper">
-        <nav class="navbar">
-            <a href="#" class="brand-logo" aria-label="anhdeface home">
-                <span class="brand-avatar-badge">
-                    <img src="https://avatars.githubusercontent.com/u/133498656?v=4" alt="anhdeface avatar" id="nav-avatar">
-                </span>
-                <span class="brand-name">anhdeface<span class="brand-dot">.</span></span>
-            </a>
+<h1>anhdeface.</h1>
+<a href="#about">About</a> |
+<a href="#idols">Idols</a> |
+<a href="#projects">Projects</a> |
+<a href="#contact">Contact</a> |
+<a href="https://github.com/Anhdeface" target="_blank">GitHub</a>
 
-            <div class="nav-links">
-                <a href="#about" class="nav-item">About</a>
-                <a href="#philosophy" class="nav-item">Idols</a>
-                <a href="#projects" class="nav-item">Projects</a>
-                <a href="#contact" class="nav-item">Contact</a>
-            </div>
+<hr>
 
-            <div class="nav-actions">
-                <!-- GitHub External Link -->
-                <a href="https://github.com/Anhdeface" target="_blank" rel="noopener noreferrer" class="btn btn-nav">
-                    <span>GitHub</span>
-                    <svg class="btn-svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M7 17L17 7"></path>
-                        <path d="M7 7h10v10"></path>
-                    </svg>
-                </a>
-            </div>
-        </nav>
-    </header>
+<table><tr>
+<td valign="top">
+<h2>Hello, I'm Quoc Anh</h2>
+<p>Just a boy with pure curiosity, who fell in love with a slice of <b>silicon</b>. To respect the hardware is to honor the blood and sweat of those who created it &mdash; hardware deserves to be treated as a <b>true companion</b>.</p>
+<p>[<a href="#projects">Explore Repositories</a>] [<a href="https://github.com/Anhdeface" target="_blank">GitHub Profile</a>]</p>
+</td>
+<td valign="top" align="center">
+<img src="https://avatars.githubusercontent.com/u/133498656?v=4" alt="Quoc Anh" id="hero-avatar" width="100" height="100"><br>
+<b id="profile-name">Quoc Anh</b><br>
+<small>@Anhdeface</small>
+</td>
+</tr></table>
 
-    <main class="main-container">
-        <!-- Hero Section -->
-        <section class="hero-section" id="hero">
-            <div class="hero-content">
-                <h1 class="hero-title">
-                    Hello, I'm <span class="highlight-name">Quốc Anh</span>
-                    <span class="title-sparkle" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" width="34" height="34" fill="var(--accent-coral)">
-                            <path d="M12 0 C12 6.6 17.4 12 24 12 C17.4 12 12 17.4 12 24 C12 17.4 6.6 12 0 12 C6.6 12 12 6.6 12 0 Z"/>
-                        </svg>
-                    </span>
-                </h1>
+<hr>
 
-                <p class="hero-subtitle">
-                    Just a boy with pure curiosity, who fell in love with a slice of <span class="text-coral font-bold">silicon</span>. 
-                    To respect the hardware is to honor the blood and sweat of those who created it — hardware deserves to be treated as a <span class="text-blue font-bold">true companion</span>.
-                </p>
+<table border="1" cellpadding="10" width="100%">
+<tr align="center">
+<td><b id="stat-repos">17</b><br><small>Repos</small></td>
+<td><b id="stat-stars">&mdash;</b><br><small>Stars</small></td>
+<td><b id="stat-followers">4</b><br><small>Followers</small></td>
+<td><b id="stat-following">5</b><br><small>Following</small></td>
+</tr>
+</table>
 
-                <!-- CTA Actions -->
-                <div class="hero-actions">
-                    <a href="#projects" class="btn btn-primary btn-chubby">
-                        <span>Explore Repositories</span>
-                        <svg class="btn-svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="12" y1="5" x2="12" y2="19"></line>
-                            <polyline points="19 12 12 19 5 12"></polyline>
-                        </svg>
-                    </a>
-                    <a href="https://github.com/Anhdeface" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-chubby">
-                        <span>GitHub Profile</span>
-                        <svg class="btn-svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-                        </svg>
-                    </a>
-                </div>
-            </div>
+<hr>
 
-            <!-- Hero Memphis & Neo-Brutalist Avatar Card Showcase -->
-            <div class="hero-card-col">
-                <div class="memphis-avatar-card" id="interactive-avatar-card">
-                    <!-- Floating Sticker 1 -->
-                    <div class="floating-badge badge-top-left">
-                        <svg class="badge-mini-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                        <span>Vietnam</span>
-                    </div>
-                    <!-- Floating Sticker 2 -->
-                    <div class="floating-badge badge-top-right">
-                        <svg class="badge-mini-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-                        <span>17+ Repos</span>
-                    </div>
+<a name="idols"></a>
+<h2>The Four Titans</h2>
 
-                    <!-- Squircle Avatar Frame -->
-                    <div class="avatar-squircle" id="avatar-click-target" title="Click to trigger confetti!">
-                        <img id="hero-avatar" class="hero-avatar-img" src="https://avatars.githubusercontent.com/u/133498656?v=4" alt="Quốc Anh (anhdeface)">
-                        <div class="avatar-ring-decor"></div>
-                    </div>
+<p><b>Ken Thompson</b><br>
+<i>"You can't trust code that you did not totally create yourself."</i></p>
 
-                    <div class="card-caption">
-                        <span class="caption-name" id="profile-name">Quốc Anh</span>
-                        <span class="caption-handle">@Anhdeface • radium cpio</span>
-                    </div>
-                </div>
-            </div>
-        </section>
+<p><b>Dennis Ritchie</b> (dmr)<br>
+<i>"UNIX is basically a simple operating system, but you have to be a genius to understand the simplicity."</i></p>
 
-        <!-- Stats Section -->
-        <section class="stats-section" id="stats">
-            <div class="stats-grid">
-                <div class="stat-card stat-card-yellow">
-                    <div class="stat-icon-wrapper">
-                        <svg class="stat-svg" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="16.5" y1="9.4" x2="7.5" y2="4.21"></line>
-                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                            <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-                            <line x1="12" y1="22.08" x2="12" y2="12"></line>
-                        </svg>
-                    </div>
-                    <div class="stat-info">
-                        <div class="stat-number" id="stat-repos">17</div>
-                        <div class="stat-label">Public Repositories</div>
-                    </div>
-                </div>
+<p><b>Terry A. Davis</b><br>
+<i>"An artist paints a painting; a software craftsman builds a cathedral from raw machine instructions."</i></p>
 
-                <div class="stat-card stat-card-coral">
-                    <div class="stat-icon-wrapper">
-                        <svg class="stat-svg" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                        </svg>
-                    </div>
-                    <div class="stat-info">
-                        <div class="stat-number" id="stat-stars">—</div>
-                        <div class="stat-label">Total Stars Earned</div>
-                    </div>
-                </div>
+<p><b>Chuck Moore</b><br>
+<i>"Keep it simple. Do not add features you do not need today."</i></p>
 
-                <div class="stat-card stat-card-green">
-                    <div class="stat-icon-wrapper">
-                        <svg class="stat-svg" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="9" cy="7" r="4"></circle>
-                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                        </svg>
-                    </div>
-                    <div class="stat-info">
-                        <div class="stat-number" id="stat-followers">4</div>
-                        <div class="stat-label">GitHub Followers</div>
-                    </div>
-                </div>
+<hr>
 
-                <div class="stat-card stat-card-purple">
-                    <div class="stat-icon-wrapper">
-                        <svg class="stat-svg" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path>
-                            <path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path>
-                            <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"></path>
-                            <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"></path>
-                        </svg>
-                    </div>
-                    <div class="stat-info">
-                        <div class="stat-number" id="stat-following">5</div>
-                        <div class="stat-label">Following Makers</div>
-                    </div>
-                </div>
-            </div>
-        </section>
+<a name="projects"></a>
+<h2>Repositories</h2>
 
-        <!-- The Four Titans & Guiding Philosophy Section (Names & Quotes Only - Zero Icons) -->
-        <section class="section-container" id="philosophy">
-            <div class="section-header-pill">
-                <span class="pill-dot"></span>
-                <span class="pill-label">COMPUTING CREED & IDOLS</span>
-            </div>
-            <h2 class="section-heading">The Four Titans</h2>
-            <p class="section-subtext">Legendary pioneers whose radical pursuit of simplicity, raw performance, and absolute mastery over silicon inspire my journey.</p>
+Filter:
+<a href="javascript:void(0)" onclick="doFilter('all')">All</a> |
+<a href="javascript:void(0)" onclick="doFilter('rust')">Rust</a> |
+<a href="javascript:void(0)" onclick="doFilter('go')">Go</a> |
+<a href="javascript:void(0)" onclick="doFilter('typescript')">TS/JS</a> |
+<a href="javascript:void(0)" onclick="doFilter('other')">Others</a>
 
-            <div class="titans-grid">
-                <!-- Titan 1: Ken Thompson -->
-                <div class="titan-card titan-card-blue">
-                    <h3 class="titan-name">Ken Thompson</h3>
-                    <blockquote class="titan-quote">
-                        "You can't trust code that you did not totally create yourself."
-                    </blockquote>
-                </div>
+<div id="repos-container"><p><i>Loading...</i></p></div>
 
-                <!-- Titan 2: Dennis Ritchie -->
-                <div class="titan-card titan-card-coral">
-                    <h3 class="titan-name">Dennis Ritchie <span class="titan-alias">(dmr)</span></h3>
-                    <blockquote class="titan-quote">
-                        "UNIX is basically a simple operating system, but you have to be a genius to understand the simplicity."
-                    </blockquote>
-                </div>
+<p><a href="https://github.com/Anhdeface?tab=repositories" target="_blank">View all on GitHub &rarr;</a></p>
 
-                <!-- Titan 3: Terry A. Davis -->
-                <div class="titan-card titan-card-cyan">
-                    <h3 class="titan-name">Terry A. Davis</h3>
-                    <blockquote class="titan-quote">
-                        "An artist paints a painting; a software craftsman builds a cathedral from raw machine instructions."
-                    </blockquote>
-                </div>
+<hr>
 
-                <!-- Titan 4: Chuck Moore -->
-                <div class="titan-card titan-card-purple">
-                    <h3 class="titan-name">Chuck Moore</h3>
-                    <blockquote class="titan-quote">
-                        "Keep it simple. Do not add features you do not need today."
-                    </blockquote>
-                </div>
-            </div>
-        </section>
+<a name="about"></a>
+<h2>About</h2>
+<p>Based in Dong Thap, Vietnam. Fascinated by how computers truly work: CPU cycles, anti-debugging, Linux/NixOS internals, memory-safe systems in Rust.</p>
+<p>Building <tt>rvs</tt> (binary analysis), <tt>fdebug</tt> (anti-debug evasion), and NixOS configs.</p>
+<p>Creed: clean execution, minimal footprint, zero bloat.</p>
 
-        <!-- Repositories Showcase Section -->
-        <section class="section-container" id="projects">
-            <div class="section-header-pill">
-                <span class="pill-dot"></span>
-                <span class="pill-label">PORTFOLIO WORK</span>
-            </div>
-            <div class="projects-title-row">
-                <div>
-                    <h2 class="section-heading">Repositories & Projects</h2>
-                    <p class="section-subtext">Open-source software, experimental research, and systems tools synced directly from my GitHub profile.</p>
-                </div>
+<hr>
 
-                <!-- Filter Pills -->
-                <div class="filter-pills-container" role="tablist" aria-label="Project language filter">
-                    <button class="filter-pill active" data-filter="all">All Projects</button>
-                    <button class="filter-pill" data-filter="rust">Rust</button>
-                    <button class="filter-pill" data-filter="go">Go</button>
-                    <button class="filter-pill" data-filter="typescript">TS / JS</button>
-                    <button class="filter-pill" data-filter="other">Others</button>
-                </div>
-            </div>
+<a name="contact"></a>
+<h2>Contact</h2>
+<ul>
+<li><a href="https://github.com/Anhdeface" target="_blank">GitHub: @Anhdeface</a></li>
+<li><a href="mailto:anhdeface@gmail.com">anhdeface@gmail.com</a></li>
+</ul>
 
-            <!-- Repos Grid -->
-            <div class="repos-grid" id="repos-container">
-                <!-- Skeleton / Loading State -->
-                <div class="repo-loading-card">
-                    <div class="skeleton skeleton-title"></div>
-                    <div class="skeleton skeleton-text"></div>
-                    <div class="skeleton skeleton-text short"></div>
-                    <div class="skeleton skeleton-footer"></div>
-                </div>
-                <div class="repo-loading-card">
-                    <div class="skeleton skeleton-title"></div>
-                    <div class="skeleton skeleton-text"></div>
-                    <div class="skeleton skeleton-text short"></div>
-                    <div class="skeleton skeleton-footer"></div>
-                </div>
-                <div class="repo-loading-card">
-                    <div class="skeleton skeleton-title"></div>
-                    <div class="skeleton skeleton-text"></div>
-                    <div class="skeleton skeleton-text short"></div>
-                    <div class="skeleton skeleton-footer"></div>
-                </div>
-            </div>
+<hr>
 
-            <div class="more-repos-cta">
-                <a href="https://github.com/Anhdeface?tab=repositories" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-chubby">
-                    <span>View all repositories on GitHub</span>
-                    <svg class="btn-svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                        <polyline points="12 5 19 12 12 19"></polyline>
-                    </svg>
-                </a>
-            </div>
-        </section>
+<p align="center"><small>anhdeface. &mdash; Quoc Anh &bull; Systems &amp; Security Developer</small></p>
 
-        <!-- About Me Bento Section -->
-        <section class="section-container" id="about">
-            <div class="section-header-pill">
-                <span class="pill-dot"></span>
-                <span class="pill-label">BEHIND THE CODE</span>
-            </div>
-            <h2 class="section-heading">A Glimpse Into My World</h2>
-            <p class="section-subtext">The mindset, daily environment, and technical passion fueling my low-level development journey.</p>
-
-            <div class="bento-grid">
-                <!-- Bento 1: Story -->
-                <div class="bento-card bento-span-2 bento-card-warm">
-                    <div class="bento-badge">Background & Drive</div>
-                    <h3 class="bento-title">Curiosity Deep Into the Silicon</h3>
-                    <p class="bento-desc">
-                        Based in Dong Thap, Vietnam. Rather than remaining on the surface of web frameworks, I am deeply fascinated by how computers truly work underneath: CPU instruction cycles, anti-debugging defenses, Linux and NixOS internals, and memory-safe systems engineering in Rust.
-                    </p>
-                </div>
-
-                <!-- Bento 2: Focus -->
-                <div class="bento-card bento-card-cyan">
-                    <div class="bento-badge">Active Focus</div>
-                    <h3 class="bento-title">Security & Tooling</h3>
-                    <p class="bento-desc">
-                        Actively developing binary analysis utilities like <code>rvs</code>, anti-debug evasion libraries for Rust (<code>fdebug</code>), and refining modular NixOS environments.
-                    </p>
-                </div>
-
-                <!-- Bento 3: Tech Philosophy -->
-                <div class="bento-card bento-card-purple">
-                    <div class="bento-badge">Engineering Creed</div>
-                    <h3 class="bento-title">Speed, Simplicity & Zero Waste</h3>
-                    <p class="bento-desc">
-                        Prioritizing clean execution paths, minimal memory footprints, and ruthless reduction of bloated dependencies across every system I touch.
-                    </p>
-                </div>
-
-                <!-- Bento 4: Setup & Routine -->
-                <div class="bento-card bento-span-2 bento-card-green">
-                    <div class="bento-badge">Daily Environment</div>
-                    <h3 class="bento-title">Daily Driver: Declarative NixOS</h3>
-                    <p class="bento-desc">
-                        Driven by deterministic reproducibility and minimalism. When taking a break from terminal sessions, I study binary exploitation, listen to electronic synth beats, and experiment with new low-level concepts.
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Contact & Connect Section -->
-        <section class="section-container" id="contact">
-            <div class="contact-banner-card">
-                <div class="contact-text-content">
-                    <div class="section-header-pill">
-                        <span class="pill-dot"></span>
-                        <span class="pill-label">LET'S CONNECT</span>
-                    </div>
-                    <h2 class="contact-heading">Let's build something extraordinary together</h2>
-                    <p class="contact-subtext">
-                        Working on an interesting systems project, interested in discussing Rust, Go, or low-level wizardry? Feel free to reach out.
-                    </p>
-                </div>
-
-                <div class="contact-buttons-group">
-                    <a href="https://github.com/Anhdeface" target="_blank" rel="noopener noreferrer" class="btn btn-contact-github btn-chubby">
-                        <svg class="btn-svg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-                            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
-                        </svg>
-                        <span>GitHub @Anhdeface</span>
-                    </a>
-                    
-                    <a href="mailto:anhdeface@gmail.com" class="btn btn-contact-email btn-chubby">
-                        <svg class="btn-svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                            <polyline points="22,6 12,13 2,6"></polyline>
-                        </svg>
-                        <span>Send Email</span>
-                    </a>
-
-                    <button class="btn btn-contact-copy btn-chubby" id="copy-handle-btn" title="Copy username to clipboard">
-                        <svg class="btn-svg" id="copy-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                        </svg>
-                        <span id="copy-btn-text">Copy Handle</span>
-                    </button>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-container">
-            <div class="footer-brand">
-                <span class="brand-name">anhdeface<span class="brand-dot">.</span></span>
-                <span class="footer-tagline">Quốc Anh • Systems & Security Developer</span>
-            </div>
-
-            <div class="footer-meta">
-                <p>Designed with Neo-Brutalist & Corporate Memphis aesthetics.</p>
-                <p class="footer-sub">Typography: <strong>Fredoka</strong> & <strong>Nunito</strong> • Powered by GitHub Pages</p>
-            </div>
-
-            <a href="#hero" class="back-to-top" title="Back to top" aria-label="Scroll back to top">
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="12" y1="19" x2="12" y2="5"></line>
-                    <polyline points="5 12 12 5 19 12"></polyline>
-                </svg>
-            </a>
-        </div>
-    </footer>
-
-    <!-- Confetti Canvas Container for Interactive Clicks -->
-    <canvas id="confetti-canvas" class="confetti-canvas" aria-hidden="true"></canvas>
-
-    <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
