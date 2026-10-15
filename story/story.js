@@ -56,7 +56,7 @@ function renderBody(text) {
     s = s.replace(/^### (.+)$/gm, '<h4>$1</h4>');
     s = s.replace(/^## (.+)$/gm, '<h3>$1</h3>');
     s = s.replace(/^# (.+)$/gm, '<h2>$1</h2>');
-    s = s.replace(/^---$/gm, '<hr>');
+    s = s.replace(/^---$/gm, '<br><br>');
     s = s.replace(/\n/g, '<br>');
     return s;
 }
@@ -125,13 +125,10 @@ function renderDetail(issue, body) {
     pg.innerHTML = '';
 
     var h = '<p><a href="#stories" onclick="closeDetail();return false;">&larr; Back to list</a></p>';
-    h += '<hr>';
     h += '<h3>' + esc(issue.title) + '</h3>';
     h += '<p><small>' + formatDate(issue.created_at) + renderLabels(issue.labels) + '</small></p>';
-    h += '<hr>';
     h += body !== null ? renderBody(body) : '<p><i>Loading...</i></p>';
-    h += '<hr>';
-    h += '<p><small><a href="' + issue.html_url + '">View on GitHub</a></small></p>';
+    h += '<br><p><small><a href="' + issue.html_url + '">View on GitHub</a></small></p>';
 
     c.innerHTML = h;
     window.scrollTo(0, 0);
