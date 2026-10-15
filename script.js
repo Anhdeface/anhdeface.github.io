@@ -1,34 +1,15 @@
-var isDark = false;
-
 function applyTheme(dark) {
-    var b = document.body;
     if (dark) {
-        b.bgColor = '#000000';
-        b.text = '#cccccc';
-        b.link = '#6699cc';
-        b.vLink = '#996699';
+        document.body.classList.add('dark');
     } else {
-        b.bgColor = '#ffffff';
-        b.text = '#000000';
-        b.link = '#0000ee';
-        b.vLink = '#551a8b';
+        document.body.classList.remove('dark');
     }
-    isDark = dark;
     try { localStorage.setItem('dark', dark ? '1' : '0'); } catch(e) {}
 }
 
 function toggleDark() {
-    applyTheme(!isDark);
+    applyTheme(!document.body.classList.contains('dark'));
 }
-
-// restore saved theme
-try {
-    if (localStorage.getItem('dark') === '1') {
-        isDark = true;
-        // apply immediately if body exists
-        if (document.body) applyTheme(true);
-    }
-} catch(e) {}
 
 var FALLBACK_REPOS = [
     { name: 'fdebug', description: 'Anti-debug detection library in Rust.', html_url: 'https://github.com/Anhdeface/fdebug', language: 'Rust', stargazers_count: 2, forks_count: 0 },
@@ -46,17 +27,6 @@ var allRepos = FALLBACK_REPOS;
 var curFilter = 'all';
 
 function esc(s) { return s ? s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') : ''; }
-
-function renderFilter() {
-    var f = document.getElementById('repos-filter');
-    if (!f) return;
-    f.innerHTML = 'Filter: '
-        + '<a href="#projects" onclick="doFilter(\'all\')">All</a> | '
-        + '<a href="#projects" onclick="doFilter(\'rust\')">Rust</a> | '
-        + '<a href="#projects" onclick="doFilter(\'go\')">Go</a> | '
-        + '<a href="#projects" onclick="doFilter(\'typescript\')">TS/JS</a> | '
-        + '<a href="#projects" onclick="doFilter(\'other\')">Others</a>';
-}
 
 function render(repos) {
     var c = document.getElementById('repos-container');
@@ -80,14 +50,16 @@ function doFilter(f) {
         if (f === 'all' || (f === 'rust' && l === 'rust') || (f === 'go' && l === 'go') || (f === 'typescript' && (l === 'typescript' || l === 'javascript')) || (f === 'other' && l !== 'rust' && l !== 'go' && l !== 'typescript' && l !== 'javascript')) out.push(allRepos[i]);
     }
     render(out);
-    return true;
 }
 
 function el(id, v) { var e = document.getElementById(id); if (e && v !== undefined) e.innerHTML = v; }
 
 function init() {
-    if (isDark) applyTheme(true);
-    renderFilter();
+    try {
+        if (localStorage.getItem('dark') === '1') {
+            document.body.classList.add('dark');
+        }
+    } catch(e) {}
     render(allRepos);
     var s = 0, i; for (i = 0; i < allRepos.length; i++) s += (allRepos[i].stargazers_count || 0);
     el('stat-stars', s);

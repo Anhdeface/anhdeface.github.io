@@ -1,28 +1,14 @@
-var isDark = false;
-
-function applyTheme(dark) {
-    var b = document.body;
-    if (dark) {
-        b.bgColor = '#000000';
-        b.text = '#cccccc';
-        b.link = '#6699cc';
-        b.vLink = '#996699';
-    } else {
-        b.bgColor = '#ffffff';
-        b.text = '#000000';
-        b.link = '#0000ee';
-        b.vLink = '#551a8b';
-    }
-    isDark = dark;
-    try { localStorage.setItem('dark', dark ? '1' : '0'); } catch(e) {}
-}
-
 function toggleDark() {
-    applyTheme(!isDark);
+    var d = !document.body.classList.contains('dark');
+    if (d) document.body.classList.add('dark');
+    else document.body.classList.remove('dark');
+    try { localStorage.setItem('dark', d ? '1' : '0'); } catch(e) {}
 }
 
 try {
-    if (localStorage.getItem('dark') === '1') isDark = true;
+    if (localStorage.getItem('dark') === '1' && document.body) {
+        document.body.classList.add('dark');
+    }
 } catch(e) {}
 
 var REPO_OWNER = 'Anhdeface';
@@ -30,7 +16,6 @@ var REPO_NAME = 'anhdeface.github.io';
 var PER_PAGE = 10;
 var currentPage = 1;
 var allIssues = [];
-var viewingDetail = false;
 
 function esc(s) {
     return s ? s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') : '';
@@ -61,25 +46,16 @@ function timeSince(dateStr) {
 function renderBody(text) {
     if (!text) return '<i>No content.</i>';
     var s = esc(text);
-    // code blocks
     s = s.replace(/```([\s\S]*?)```/g, '<pre>$1</pre>');
-    // inline code
     s = s.replace(/`([^`]+)`/g, '<tt>$1</tt>');
-    // images ![alt](url)
     s = s.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '[image: $1 - $2]');
-    // links [text](url)
     s = s.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
-    // bold
     s = s.replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
-    // italic
     s = s.replace(/\*(.+?)\*/g, '<i>$1</i>');
-    // headings
     s = s.replace(/^### (.+)$/gm, '<h4>$1</h4>');
     s = s.replace(/^## (.+)$/gm, '<h3>$1</h3>');
     s = s.replace(/^# (.+)$/gm, '<h2>$1</h2>');
-    // horizontal rule
     s = s.replace(/^---$/gm, '<hr>');
-    // line breaks
     s = s.replace(/\n/g, '<br>');
     return s;
 }
@@ -118,7 +94,6 @@ function renderList(issues) {
     c.innerHTML = h;
 
     renderPagination(issues.length);
-    viewingDetail = false;
 }
 
 function renderPagination(total) {
@@ -166,7 +141,6 @@ function showDetail(number) {
 
     c.innerHTML = h;
     pg.innerHTML = '';
-    viewingDetail = true;
     window.scrollTo(0, 0);
 }
 
@@ -175,7 +149,12 @@ function closeDetail() {
 }
 
 function loadIssues() {
-    if (isDark) applyTheme(true);
+    try {
+        if (localStorage.getItem('dark') === '1') {
+            document.body.classList.add('dark');
+        }
+    } catch(e) {}
+
     var c = document.getElementById('stories-container');
     if (!c) return;
 

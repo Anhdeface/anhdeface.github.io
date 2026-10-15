@@ -1,7 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>anhdeface - Quoc Anh</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;700&display=swap" rel="stylesheet">
+<style>
+body { font-family: 'Be Vietnam Pro', sans-serif; }
+body.dark { background-color: #000; color: #ccc; }
+body.dark a { color: #6699cc; }
+body.dark table { border-color: #444; }
+</style>
 </head>
 <body>
 
@@ -10,7 +19,7 @@
 <a href="#idols">Idols</a> |
 <a href="#projects">Projects</a> |
 <a href="#contact">Contact</a> |
-<a href="/story/">Story</a> |
+<a href="story/">Story</a> |
 <a href="https://github.com/Anhdeface">GitHub</a> |
 <a href="#" onclick="toggleDark();return false;">[Dark/Light]</a>
 
@@ -42,8 +51,7 @@
 
 <hr>
 
-<a name="idols"></a>
-<h2>The Four Titans</h2>
+<h2 id="idols">The Four Titans</h2>
 
 <p><b>Ken Thompson</b><br>
 <i>"You can't trust code that you did not totally create yourself."</i></p>
@@ -59,8 +67,7 @@
 
 <hr>
 
-<a name="projects"></a>
-<h2>Repositories</h2>
+<h2 id="projects">Repositories</h2>
 
 <noscript>
 <ul>
@@ -76,23 +83,23 @@
 </ul>
 </noscript>
 
-<div id="repos-filter"></div>
+<div id="repos-filter">
+Filter: <a href="#projects" onclick="doFilter('all');return false;">All</a> | <a href="#projects" onclick="doFilter('rust');return false;">Rust</a> | <a href="#projects" onclick="doFilter('go');return false;">Go</a> | <a href="#projects" onclick="doFilter('typescript');return false;">TS/JS</a> | <a href="#projects" onclick="doFilter('other');return false;">Others</a>
+</div>
 <div id="repos-container"></div>
 
 <p><a href="https://github.com/Anhdeface?tab=repositories">View all on GitHub &rarr;</a></p>
 
 <hr>
 
-<a name="about"></a>
-<h2>About</h2>
+<h2 id="about">About</h2>
 <p>Based in Dong Thap, Vietnam. Fascinated by how computers truly work: CPU cycles, anti-debugging, Linux/NixOS internals, memory-safe systems in Rust.</p>
 <p>Building <tt>rvs</tt> (binary analysis), <tt>fdebug</tt> (anti-debug evasion), and NixOS configs.</p>
 <p>Creed: clean execution, minimal footprint, zero bloat.</p>
 
 <hr>
 
-<a name="contact"></a>
-<h2>Contact</h2>
+<h2 id="contact">Contact</h2>
 <ul>
 <li><a href="https://github.com/Anhdeface">GitHub: @Anhdeface</a></li>
 <li><a href="mailto:anhdeface@gmail.com">anhdeface@gmail.com</a></li>
