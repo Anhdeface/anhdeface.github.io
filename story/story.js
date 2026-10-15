@@ -16,6 +16,7 @@ var REPO_NAME = 'anhdeface.github.io';
 var PER_PAGE = 10;
 var currentPage = 1;
 var allIssues = [];
+var bodyCache = {};
 
 function esc(s) {
     return s ? s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') : '';
@@ -78,8 +79,7 @@ function renderList(issues) {
     }
 
     var start = (currentPage - 1) * PER_PAGE;
-    var end = start + PER_PAGE;
-    var page = issues.slice(start, end);
+    var page = issues.slice(start, start + PER_PAGE);
 
     var h = '<ul>', i, issue;
     for (i = 0; i < page.length; i++) {
@@ -92,7 +92,6 @@ function renderList(issues) {
     }
     h += '</ul>';
     c.innerHTML = h;
-
     renderPagination(issues.length);
 }
 
@@ -120,6 +119,24 @@ function goPage(p) {
     window.scrollTo(0, 0);
 }
 
+function renderDetail(issue, body) {
+    var c = document.getElementById('stories-container');
+    var pg = document.getElementById('stories-pagination');
+    pg.innerHTML = '';
+
+    var h = '<p><a href="#stories" onclick="closeDetail();return false;">&larr; Back to list</a></p>';
+    h += '<hr>';
+    h += '<h3>' + esc(issue.title) + '</h3>';
+    h += '<p><small>' + formatDate(issue.created_at) + renderLabels(issue.labels) + '</small></p>';
+    h += '<hr>';
+    h += body !== null ? renderBody(body) : '<p><i>Loading...</i></p>';
+    h += '<hr>';
+    h += '<p><small><a href="' + issue.html_url + '">View on GitHub</a></small></p>';
+
+    c.innerHTML = h;
+    window.scrollTo(0, 0);
+}
+
 function showDetail(number) {
     var issue = null, i;
     for (i = 0; i < allIssues.length; i++) {
@@ -127,21 +144,23 @@ function showDetail(number) {
     }
     if (!issue) return;
 
-    var c = document.getElementById('stories-container');
-    var pg = document.getElementById('stories-pagination');
+    if (bodyCache[number] !== undefined) {
+        renderDetail(issue, bodyCache[number]);
+        return;
+    }
 
-    var h = '<p><a href="#stories" onclick="closeDetail();return false;">&larr; Back to list</a></p>';
-    h += '<hr>';
-    h += '<h3>' + esc(issue.title) + '</h3>';
-    h += '<p><small>' + formatDate(issue.created_at) + renderLabels(issue.labels) + '</small></p>';
-    h += '<hr>';
-    h += renderBody(issue.body);
-    h += '<hr>';
-    h += '<p><small><a href="' + issue.html_url + '">View on GitHub</a></small></p>';
+    renderDetail(issue, null);
 
-    c.innerHTML = h;
-    pg.innerHTML = '';
-    window.scrollTo(0, 0);
+    fetch('https://api.github.com/repos/' + REPO_OWNER + '/' + REPO_NAME + '/issues/' + number)
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+            bodyCache[number] = data.body || '';
+            renderDetail(issue, bodyCache[number]);
+        })
+        .catch(function() {
+            bodyCache[number] = '*Failed to load content.*';
+            renderDetail(issue, bodyCache[number]);
+        });
 }
 
 function closeDetail() {
@@ -173,7 +192,13 @@ function loadIssues() {
             allIssues = [];
             for (var i = 0; i < issues.length; i++) {
                 if (!issues[i].pull_request) {
-                    allIssues.push(issues[i]);
+                    allIssues.push({
+                        number: issues[i].number,
+                        title: issues[i].title,
+                        created_at: issues[i].created_at,
+                        labels: issues[i].labels,
+                        html_url: issues[i].html_url
+                    });
                 }
             }
         }
