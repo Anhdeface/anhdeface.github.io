@@ -10,7 +10,9 @@
 <a href="#idols">Idols</a> |
 <a href="#projects">Projects</a> |
 <a href="#contact">Contact</a> |
-<a href="https://github.com/Anhdeface" target="_blank">GitHub</a>
+<a href="/story/">Story</a> |
+<a href="https://github.com/Anhdeface">GitHub</a> |
+<a href="#" onclick="toggleDark();return false;">[Dark/Light]</a>
 
 <hr>
 
@@ -18,10 +20,10 @@
 <td valign="top">
 <h2>Hello, I'm Quoc Anh</h2>
 <p>Just a boy with pure curiosity, who fell in love with a slice of <b>silicon</b>. To respect the hardware is to honor the blood and sweat of those who created it &mdash; hardware deserves to be treated as a <b>true companion</b>.</p>
-<p>[<a href="#projects">Explore Repositories</a>] [<a href="https://github.com/Anhdeface" target="_blank">GitHub Profile</a>]</p>
+<p>[<a href="#projects">Explore Repositories</a>] [<a href="https://github.com/Anhdeface">GitHub Profile</a>]</p>
 </td>
 <td valign="top" align="center">
-<img src="https://avatars.githubusercontent.com/u/133498656?v=4" alt="Quoc Anh" id="hero-avatar" width="100" height="100"><br>
+<img src="https://avatars.githubusercontent.com/u/133498656?v=4" alt="[Quoc Anh avatar]" id="hero-avatar" width="100" height="100"><br>
 <b id="profile-name">Quoc Anh</b><br>
 <small>@Anhdeface</small>
 </td>
@@ -32,7 +34,7 @@
 <table border="1" cellpadding="10" width="100%">
 <tr align="center">
 <td><b id="stat-repos">17</b><br><small>Repos</small></td>
-<td><b id="stat-stars">&mdash;</b><br><small>Stars</small></td>
+<td><b id="stat-stars">3</b><br><small>Stars</small></td>
 <td><b id="stat-followers">4</b><br><small>Followers</small></td>
 <td><b id="stat-following">5</b><br><small>Following</small></td>
 </tr>
@@ -60,16 +62,24 @@
 <a name="projects"></a>
 <h2>Repositories</h2>
 
-Filter:
-<a href="javascript:void(0)" onclick="doFilter('all')">All</a> |
-<a href="javascript:void(0)" onclick="doFilter('rust')">Rust</a> |
-<a href="javascript:void(0)" onclick="doFilter('go')">Go</a> |
-<a href="javascript:void(0)" onclick="doFilter('typescript')">TS/JS</a> |
-<a href="javascript:void(0)" onclick="doFilter('other')">Others</a>
+<noscript>
+<ul>
+<li><a href="https://github.com/Anhdeface/fdebug"><b>fdebug</b></a> [Rust] - Anti-debug detection library. (2 stars)</li>
+<li><a href="https://github.com/Anhdeface/rvs"><b>rvs</b></a> [Rust] - Binary triage toolkit. (1 star)</li>
+<li><a href="https://github.com/Anhdeface/byfu"><b>byfu</b></a> [JavaScript] - LMS automation module.</li>
+<li><a href="https://github.com/Anhdeface/arlogkn"><b>arlogkn</b></a> [Shell] - Linux log parser.</li>
+<li><a href="https://github.com/Anhdeface/xokj"><b>xokj</b></a> [TypeScript] - TypeScript toolchain.</li>
+<li><a href="https://github.com/Anhdeface/rifas"><b>rifas</b></a> [Go] - Network primitives in Go.</li>
+<li><a href="https://github.com/Anhdeface/jimsu"><b>jimsu</b></a> [Vue] - Web audio streamer.</li>
+<li><a href="https://github.com/Anhdeface/Cnotifi"><b>Cnotifi</b></a> [Kotlin] - Android notification daemon.</li>
+<li><a href="https://github.com/Anhdeface/nixos"><b>nixos</b></a> [Nix] - NixOS flake config.</li>
+</ul>
+</noscript>
 
-<div id="repos-container"><p><i>Loading...</i></p></div>
+<div id="repos-filter"></div>
+<div id="repos-container"></div>
 
-<p><a href="https://github.com/Anhdeface?tab=repositories" target="_blank">View all on GitHub &rarr;</a></p>
+<p><a href="https://github.com/Anhdeface?tab=repositories">View all on GitHub &rarr;</a></p>
 
 <hr>
 
@@ -84,7 +94,7 @@ Filter:
 <a name="contact"></a>
 <h2>Contact</h2>
 <ul>
-<li><a href="https://github.com/Anhdeface" target="_blank">GitHub: @Anhdeface</a></li>
+<li><a href="https://github.com/Anhdeface">GitHub: @Anhdeface</a></li>
 <li><a href="mailto:anhdeface@gmail.com">anhdeface@gmail.com</a></li>
 </ul>
 
